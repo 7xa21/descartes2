@@ -2,18 +2,17 @@ import java.util.HashMap;
 
 public class FactorNode {
 
-	//==================//
+	// ==================//
 	// Member Variables //
-	//==================//
+	// ==================//
 
 	private AtomNode m_atom;
 	private FactorNode m_negFactor;
 	private ExprNode m_parenExpr;
 
-
-	//=========//
+	// =========//
 	// Methods //
-	//=========//
+	// =========//
 
 	public FactorNode(AtomNode atom) {
 		m_atom = atom;
@@ -37,32 +36,35 @@ public class FactorNode {
 		double value;
 
 		if (m_atom != null) {
-			assert(m_negFactor == null);
-			assert(m_parenExpr == null);
+			assert (m_negFactor == null);
+			assert (m_parenExpr == null);
 			value = m_atom.getVal(symTab);
-		} else if (m_negFactor != null) {
-			assert(m_parenExpr == null);
+		}
+		else if (m_negFactor != null) {
+			assert (m_parenExpr == null);
 			value = m_negFactor.getVal(symTab);
-		} else {
-			assert(m_parenExpr != null);
+		}
+		else {
+			assert (m_parenExpr != null);
 			value = m_parenExpr.getVal(symTab);
 		}
 
 		return value;
 	}
 
-
-	//================//
+	// ================//
 	// Static Methods //
-	//================//
+	// ================//
 
 	public static FactorNode parseFactor(TokenReader tokenReader) {
+
+		return m_negFactor;
 		//
 		// Look for:
 		//
-		//		* '-' character and factor
-		//		* atom
-		//		* '(' ')' set with enclosed expression
+		// * '-' character and factor
+		// * atom
+		// * '(' ')' set with enclosed expression
 		//
 	}
 }

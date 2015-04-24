@@ -1,40 +1,33 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 
+public class Descartes {
 
-public class Descartes
-{
-
-	//==================//
+	// ==================//
 	// Member Variables //
-	//==================//
+	// ==================//
 
 	/** Stream that source code will be read from. */
 	private InputStream m_sourceStream;
 
-
-	//=========//
+	// =========//
 	// Methods //
-	//=========//
+	// =========//
 
 	/**
-	 * Construct a new Descartes interpreter with sourceStream providing the
-	 * program source code.
+	 * Construct a new Descartes interpreter with sourceStream providing the program source code.
 	 *
-	 * @param sourceStream An initialized InputStream from which to read the
-	 *        program source code
+	 * @param sourceStream
+	 *            An initialized InputStream from which to read the program source code
 	 */
 	public Descartes(InputStream sourceStream) {
 		this.m_sourceStream = sourceStream;
 	}
 
-
 	/**
 	 * Reads, parses and executes the program.
 	 */
-	private void run() {
+	private void run() throws IOException {
 		try {
 			// Initialize the token reader.
 			TokenReader tokenReader = new TokenReader(m_sourceStream);
@@ -48,23 +41,22 @@ public class Descartes
 		} catch (DCSyntaxErrorException e) {
 			System.err.println(e.getMessage());
 			System.exit(-1);
-		} catch (DCRuntimeErrorException e) {
-			System.err.println(e.getMessage());
-			System.exit(-1);
 		}
+		// catch (DCRuntimeErrorException e) {
+		// System.err.println(e.getMessage());
+		// System.exit(-1);
+		// }
 	}
 
-
-	//================//
+	// ================//
 	// Static Methods //
-	//================//
+	// ================//
 
 	/**
-	 * Program entry. Sets up to read the program source code,
-	 * parse it and run it.
+	 * Program entry. Sets up to read the program source code, parse it and run it.
 	 *
-	 * @param args The first (and only, optional) argument is the
-	 *             name of a Descartes source code file.
+	 * @param args
+	 *            The first (and only, optional) argument is the name of a Descartes source code file.
 	 */
 	public static void main(String[] args) {
 		// Get the source file name, or

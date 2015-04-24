@@ -30,5 +30,5 @@ public enum TokenCode {
 	T_CLOSE_PAREN,
 	T_CONST,
 	T_SPACE,
-	T_EOLN
+	T_EOL;
 }
