@@ -10,6 +10,7 @@ public class Descartes {
 	/** Stream that source code will be read from. */
 	private InputStream m_sourceStream;
 
+
 	// =========//
 	// Methods //
 	// =========//
@@ -47,6 +48,7 @@ public class Descartes {
 		// System.exit(-1);
 		// }
 	}
+
 
 	//================//
 	// Static Methods //

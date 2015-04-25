@@ -10,6 +10,7 @@ public class FactorNode {
 	private FactorNode m_negFactor;
 	private ExprNode m_parenExpr;
 
+
 	//=========//
 	// Methods //
 	//=========//
@@ -52,13 +53,14 @@ public class FactorNode {
 		return value;
 	}
 
+
 	//================//
 	// Static Methods //
 	//================//
 
 	public static FactorNode parseFactor(TokenReader tokenReader) {
 
-		return m_negFactor;
+		return null;
 		//
 		// Look for:
 		//

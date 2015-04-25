@@ -33,11 +33,9 @@ class TokenReader {
 	private PushbackInputStream m_inStream;
 
 
-
 	//=========//
 	// Methods //
 	//=========//
-
 
 	public void unread(TokenDescriptor descrip)
 		throws IOException
@@ -60,8 +58,6 @@ class TokenReader {
 		String pChars = ".*()/+-<>=.:;";
 		return pChars.contains(Character.toString((char)ch));
 	}
-
-
 
 	//
 	// Construct a new TokenReader that will read input from
@@ -105,8 +101,6 @@ class TokenReader {
 		m_operators.put(".", TokenCode.T_PERIOD);
 		m_operators.put(",", TokenCode.T_COMMA);
 	}
-
-
 
 	//
 	// The following methods read specific types of tokens
@@ -216,8 +210,6 @@ class TokenReader {
 		return token.toString();
 	}
 
-
-
 	//
 	// Read a token that begins with a letter of the alphabet.
 	//
@@ -268,8 +260,6 @@ class TokenReader {
 		return token.toString();
 	}
 
-
-
 	//
 	// Read a string literal and return it, including the
 	// surrounding quotation marks.
@@ -319,7 +309,6 @@ class TokenReader {
 	}
 	*/
 
-
 	public void readSpace() throws IOException {
 		char ch;
 		boolean eof = false;
@@ -340,8 +329,6 @@ class TokenReader {
 		if (!eof)
 			m_inStream.unread(ch);
 	}
-
-
 
 	//
 	// Reads a token from the input stream into a TokenDescriptor
@@ -490,8 +477,6 @@ class TokenReader {
 		return new TokenDescriptor(tokenText, tokenCode);
 	}
 
-
-
 	//
 	// Returns true if there are no more tokens to read from the
 	// input stream.
@@ -499,7 +484,6 @@ class TokenReader {
 	public boolean atEnd() throws IOException {
 		return (m_inStream.available() == 0);
 	}
-
 
 
 	//================//
