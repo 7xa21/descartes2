@@ -54,26 +54,44 @@ public class BoolTermTailNode {
 	public static BoolTermTailNode parseBoolTermTail(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
-		// Eat any leading spaces.
 		TokenDescriptor token;
+
+		// Eat any leading spaces.
 		do {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);
 
+		//
+		// GR 24:
+		//
+		//		bool-term-tail : OR bool-term bool-term-tail
+		//
+
 		// Look for "OR" keyword.
 		BoolTermTailNode termTail;
 		if (token.getCode() == TokenCode.T_OR) {
+			// Now look for another bool-term and bool-term-tail.
 			BoolTermNode term = BoolTermNode.parseBoolTerm(tokenReader);
 			BoolTermTailNode nextTermTail =
 					BoolTermTailNode.parseBoolTermTail(tokenReader);
 
 			termTail = new BoolTermTailNode(term, nextTermTail);
-		} else {
-			// The token was not "OR" and therefore this
-			// bool-term-tail is empty, so put the token back.
+		}
+
+		//
+		// GR 25:
+		//
+		//		bool-term-tail :
+		//
+
+		// If the token was not "OR" then this bool-term-tail is
+		// empty (and we need to unread() the token back to the
+		// reader).
+		else {
 			tokenReader.unread(token);
 			termTail = new BoolTermTailNode();
 		}
+
 
 		return termTail;
 	}

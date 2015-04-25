@@ -76,6 +76,12 @@ public class AssignStmtNode extends StmtNode {
 	public static AssignStmtNode parseAssignStmt(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
+		//
+		// GR 18:
+		//
+		//		assign-stmt : ID BECOMES expr
+		//
+
 		// Get the ID.
 		TokenDescriptor token = tokenReader.getToken();
 		assert(token.getCode() == TokenCode.T_ID);
@@ -87,16 +93,16 @@ public class AssignStmtNode extends StmtNode {
 		} while (token.getCode() == TokenCode.T_SPACE);
 
 		// "token" should now be the first non-space token after
-		// the ID, which should be ":=".
+		// the ID, which should be BECOMES (e.g. ":=").
 		assert(token.getCode() == TokenCode.T_BECOMES);
 
-		// Eat up spaces after ":=".
+		// Eat up spaces after BECOMES.
 		do {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);
 
 		// "token" should now be the first non-space token after
-		// the ":=", which should be an expression.
+		// the BECOMES, which should be an expression.
 		ExprNode expr = ExprNode.parseExpr(tokenReader);
 
 

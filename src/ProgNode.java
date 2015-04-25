@@ -29,7 +29,24 @@ public class ProgNode {
 	public static ProgNode parseProg(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
+		//
+		// GR 0:
+		//
+		//		prog : stmt-list PERIOD
+		//
+
+		// Read the stmt-list.
 		StmtListNode stmtList = StmtListNode.parseStmtList(tokenReader);
+
+		// Eat any spaces before the trailing period.
+		TokenDescriptor token;
+		do {
+			token = tokenReader.getToken();
+		} while (token.getCode() == TokenCode.T_SPACE);
+
+		// "token" should now be the trailing period.
+		assert(token.getCode() == TokenCode.T_PERIOD);
+
 
 		return new ProgNode(stmtList);
 	}

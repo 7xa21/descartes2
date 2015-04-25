@@ -37,9 +37,17 @@ public class TermNode {
 	public static TermNode parseTerm(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
+		//
+		// GR 41:
+		//
+		//		term : factor factor-tail
+		//
+
+		// Read the factor and the factor-tail.
 		FactorNode factor = FactorNode.parseFactor(tokenReader);
 		FactorTailNode factorTail =
 				FactorTailNode.parseFactorTail(tokenReader);
+
 
 		return new TermNode(factor, factorTail);
 	}

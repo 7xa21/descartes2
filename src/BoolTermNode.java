@@ -46,9 +46,17 @@ public class BoolTermNode {
 	public static BoolTermNode parseBoolTerm(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
+		//
+		// GR 26:
+		//
+		//		bool-term : bool-factor bool-factor-tail
+		//
+
+		// Read the bool-factor and the bool-factor tail.
 		BoolFactorNode factor = BoolFactorNode.parseBoolFactor(tokenReader);
 		BoolFactorTailNode factorTail =
 				BoolFactorTailNode.parseBoolFactorTail(tokenReader);
+
 
 		return new BoolTermNode(factor, factorTail);
 	}

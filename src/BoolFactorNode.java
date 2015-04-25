@@ -30,7 +30,16 @@ public class BoolFactorNode {
 	public static BoolFactorNode parseBoolFactor(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
+		//
+		// GR 29:
+		//
+		//		bool-factor : arith-expr relation-option
+		//
+
+		// Read the arith-expr and relation-option
 		ArithExprNode arithExpr = ArithExprNode.parseArithExpr(tokenReader);
-		return new BoolFactorNode(arithExpr);
+//		RelationOptionNode relationOption =
+//		 		RelationOptionNode.parseRelationOption(tokenReader);
+		return new BoolFactorNode(arithExpr /*, relationOption */);
 	}
 }

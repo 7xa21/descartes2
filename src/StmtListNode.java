@@ -32,8 +32,16 @@ public class StmtListNode {
 	public static StmtListNode parseStmtList(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
+		//
+		// GR 1:
+		//
+		// 		stmt-list : stmt stmt-tail
+		//
+
+		// Read "stmt" and "stmt-tail".
 		StmtNode stmt = StmtNode.parseStmt(tokenReader);
 		StmtTailNode stmtTail = StmtTailNode.parseStmtTail(tokenReader);
+
 
 		return new StmtListNode(stmt, stmtTail);
 	}

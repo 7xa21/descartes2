@@ -48,21 +48,42 @@ public class StmtTailNode {
 	public static StmtTailNode parseStmtTail(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
+		StmtTailNode stmtTail;
 		TokenDescriptor token;
+
+		// Eat leading spaces.
 		do {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);
 
-		StmtTailNode stmtTail = null;
+
+		//
+		// GR 2:
+		//
+		// 		stmt-list : SEMICOLON stmt stmt-tail
+		//
+
+		// Look for semicolon.
 		if (token.getCode() == TokenCode.T_SEMICOLON) {
+			// After semicolon, get "stmt" and "stmt-tail".
 			StmtNode stmt = StmtNode.parseStmt(tokenReader);
 			StmtTailNode nextStmtTail =
 					StmtTailNode.parseStmtTail(tokenReader);
 
 			stmtTail = new StmtTailNode(stmt, nextStmtTail);
-		} else {
+		}
+
+		//
+		// GR 3:
+		//
+		// 		stmt-list :
+		//
+
+		// If no semicolon, the statement tail is blank.
+		else {
 			stmtTail = new StmtTailNode();
 		}
+
 
 		return stmtTail;
 	}

@@ -43,6 +43,18 @@ public class ExprNode {
 	public static ExprNode parseExpr(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
-		return null;
+		//
+		// GR 23:
+		//
+		//		expr : bool-term bool-term-tail
+		//
+
+		// Read the bool-term and the bool-term-tail.
+		BoolTermNode boolTerm = BoolTermNode.parseBoolTerm(tokenReader);
+		BoolTermTailNode boolTermTail =
+				BoolTermTailNode.parseBoolTermTail(tokenReader);
+
+
+		return new ExprNode(boolTerm, boolTermTail);
 	}
 }

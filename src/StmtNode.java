@@ -37,10 +37,28 @@ public class StmtNode {
 
 		StmtNode node;
 
+
+		//
+		// GR 7:
+		//
+		//		stmt : assign-stmt
+		//
 		if (AssignStmtNode.detectAssignStmt(tokenReader)) {
 			node = AssignStmtNode.parseAssignStmt(tokenReader);
 		}
 
-		return new StmtNode();
+		//
+		// GR 10:
+		//
+		//		stmt :
+		//
+
+		// If none of the above statement types were found, the
+		// statement is empty.
+		else {
+			node = new StmtNode();
+		}
+
+		return node;
 	}
 }

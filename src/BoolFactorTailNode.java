@@ -55,27 +55,45 @@ public class BoolFactorTailNode {
 			TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
-		// Eat any leading spaces.
 		TokenDescriptor token;
+
+		// Eat any leading spaces.
 		do {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);
 
+		//
+		// GR 27:
+		//
+		//		bool-factor-tail : AND bool-factor bool-factor-tail
+		//
+
 		// Look for "AND" keyword.
 		BoolFactorTailNode factorTail;
 		if (token.getCode() == TokenCode.T_AND) {
+			// Now look for the bool-factor and bool-factor-tail.
 			BoolFactorNode factor =
 					BoolFactorNode.parseBoolFactor(tokenReader);
 			BoolFactorTailNode nextFactorTail =
 					BoolFactorTailNode.parseBoolFactorTail(tokenReader);
 
 			factorTail = new BoolFactorTailNode(factor, nextFactorTail);
-		} else {
-			// The token was not "AND" and therefore this
-			// bool-factor-tail is empty, so put the token back.
+		}
+
+		//
+		// GR 28:
+		//
+		//		bool-factor-tail :
+		//
+
+		// If the token was not "AND" then this bool-factor-tail
+		// is empty (and we need to unread() the token back to the
+		// reader).
+		else {
 			tokenReader.unread(token);
 			factorTail = new BoolFactorTailNode();
 		}
+
 
 		return factorTail;
 	}

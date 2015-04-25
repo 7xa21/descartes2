@@ -65,13 +65,21 @@ public class TermTailNode {
 	public static TermTailNode parseTermTail(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
-		// Eat any leading spaces and get next token.
 		TokenDescriptor token;
+
+		// Eat any leading spaces and get next token.
 		do {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);
 
-		// Look for a '+' or a '-'.
+		//
+		// GR 38/39:
+		//
+		//		term-tail : + term term-tail
+		//		term-tail : - term term-tail
+		//
+
+		// Look for a '+' or a '-' operator.
 		Operator oper = null;
 		if (token.getCode() == TokenCode.T_ADD) {
 			oper = Operator.ADD;
@@ -79,20 +87,32 @@ public class TermTailNode {
 			oper = Operator.SUBTRACT;
 		}
 
-		// Either construct a compound term tail, with an
-		// add or subtract operator, or an empty term tail.
+		// If there was a '+' or '-' operator, build a non-empty
+		// term with the subsequent term and term-tail.
 		TermTailNode termTail;
 		if (oper != null) {
+			// Read the term and term-tail.
 			TermNode term = TermNode.parseTerm(tokenReader);
 			TermTailNode nextTermTail =
 					TermTailNode.parseTermTail(tokenReader);
+
 			termTail = new TermTailNode(oper, term, nextTermTail);
-		} else {
-			// This term tail is empty. Since the token we read
-			// isn't part of the term tail, unread it.
+		}
+
+		//
+		// GR 40:
+		//
+		//		term-tail :
+		//
+
+		// If there was no '+' or '-' operator found, then this
+		// term-tail is empty (and we need to unread() the token
+		// back to the TokenReader).
+		else {
 			tokenReader.unread(token);
 			termTail = new TermTailNode();
 		}
+
 
 		return termTail;
 	}
