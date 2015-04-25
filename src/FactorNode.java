@@ -2,17 +2,17 @@ import java.util.HashMap;
 
 public class FactorNode {
 
-	// ==================//
+	//==================//
 	// Member Variables //
-	// ==================//
+	//==================//
 
 	private AtomNode m_atom;
 	private FactorNode m_negFactor;
 	private ExprNode m_parenExpr;
 
-	// =========//
+	//=========//
 	// Methods //
-	// =========//
+	//=========//
 
 	public FactorNode(AtomNode atom) {
 		m_atom = atom;
@@ -52,9 +52,9 @@ public class FactorNode {
 		return value;
 	}
 
-	// ================//
+	//================//
 	// Static Methods //
-	// ================//
+	//================//
 
 	public static FactorNode parseFactor(TokenReader tokenReader) {
 

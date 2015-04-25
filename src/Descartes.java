@@ -3,9 +3,9 @@ import java.util.HashMap;
 
 public class Descartes {
 
-	// ==================//
+	//==================//
 	// Member Variables //
-	// ==================//
+	//==================//
 
 	/** Stream that source code will be read from. */
 	private InputStream m_sourceStream;
@@ -48,9 +48,9 @@ public class Descartes {
 		// }
 	}
 
-	// ================//
+	//================//
 	// Static Methods //
-	// ================//
+	//================//
 
 	/**
 	 * Program entry. Sets up to read the program source code, parse it and run it.
