@@ -20,7 +20,10 @@ public class StmtListNode {
 	}
 
 	public void execute(HashMap<String, Double> symTab) {
+		// Execute child stmt.
 		m_stmt.execute(symTab);
+
+		// Execute child stmt-tail.
 		m_stmtTail.execute(symTab);
 	}
 

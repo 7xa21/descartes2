@@ -19,6 +19,7 @@ public class BoolFactorNode {
 	}
 
 	public double getVal(HashMap<String, Double> symTab) {
+		// Return the value of the child arith-expr.
 		return m_arithExpr.getVal(symTab);
 	}
 

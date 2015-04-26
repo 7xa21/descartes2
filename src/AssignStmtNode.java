@@ -22,6 +22,7 @@ public class AssignStmtNode extends StmtNode {
 	}
 
 	public void execute(HashMap<String, Double> symTab) {
+		// Assign the expression's value to the ID.
 		symTab.put(m_id, m_expr.getVal(symTab));
 	}
 
@@ -54,10 +55,10 @@ public class AssignStmtNode extends StmtNode {
 			// Eat up spaces after ID.
 			do {
 				token = tokenReader.getToken();
+				toReplace.push(token);
 			} while (token.getCode() == TokenCode.T_SPACE);
 
 			// "token" is now the first token after the space(s).
-			toReplace.push(token);
 
 			// Look for the ":=" token.
 			if (token.getCode() == TokenCode.T_BECOMES) {
@@ -96,13 +97,7 @@ public class AssignStmtNode extends StmtNode {
 		// the ID, which should be BECOMES (e.g. ":=").
 		assert(token.getCode() == TokenCode.T_BECOMES);
 
-		// Eat up spaces after BECOMES.
-		do {
-			token = tokenReader.getToken();
-		} while (token.getCode() == TokenCode.T_SPACE);
-
-		// "token" should now be the first non-space token after
-		// the BECOMES, which should be an expression.
+		// Read the expression.
 		ExprNode expr = ExprNode.parseExpr(tokenReader);
 
 

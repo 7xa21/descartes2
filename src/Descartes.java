@@ -39,7 +39,20 @@ public class Descartes {
 			// Execute parse tree.
 			HashMap<String, Double> symTab = new HashMap<String, Double>();
 			progNode.execute(symTab);
+
+			// Dump the symbol table.
+			for (String key : symTab.keySet()) {
+				System.out.println(key + " : " + symTab.get(key));
+			}
 		} catch (DCSyntaxErrorException e) {
+			//
+			// For now, we'll print the stack trace until we feel
+			// confident that the interpreter works and that
+			// syntax errors are legitimate problems in the
+			// Descartes program we're interpreting.
+			//
+			e.printStackTrace();
+
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
@@ -79,6 +92,7 @@ public class Descartes {
 			interpreter.run();
 		} catch (Exception e) {
 			System.err.println("An unexpected exception occurred:");
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 			System.exit(-1);
 		}

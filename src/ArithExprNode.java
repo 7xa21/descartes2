@@ -21,7 +21,24 @@ public class ArithExprNode {
 	}
 
 	public double getVal(HashMap<String, Double> symTab) {
-		return m_term.getVal(symTab) + m_termTail.getVal(symTab);
+		// Get the value of the child term.
+		double termVal = m_term.getVal(symTab);
+
+		// Check if the child term-tail is not empty.
+		if (!m_termTail.isEmpty()) {
+			double tailVal = m_termTail.getVal(symTab);
+			if (m_termTail.getOper() == TermTailNode.Operator.ADD) {
+				termVal += tailVal;
+			} else {
+				// If the non-empty term-tail isn't an addition
+				// operation then it HAS to be a subtraction
+				// operation.
+				termVal -= tailVal;
+			}
+		}
+
+
+		return termVal;
 	}
 
 

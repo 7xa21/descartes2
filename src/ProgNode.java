@@ -18,6 +18,7 @@ public class ProgNode {
 	}
 
 	public void execute(HashMap<String, Double> symTab) {
+		// Execute child stmt-list.
 		m_stmtList.execute(symTab);
 	}
 

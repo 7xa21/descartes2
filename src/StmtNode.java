@@ -11,6 +11,12 @@ public class StmtNode {
 	}
 
 	public void execute(HashMap<String, Double> symTab) {
+		// This is only used for blank statements (GR 10).
+		//
+		// It doesn't do anything.
+		//
+		// Other types of statements use this class as a base;
+		// see the execute() method for them instead.
 	}
 
 

@@ -17,7 +17,7 @@ public class TokenDescriptor {
 
 	// Prints the token/code pair on the console.
 	public void print() {
-		System.out.println(m_text + " (ID: " + m_code + ")");
+		System.out.println(m_text + "\t(ID: " + m_code + ")");
 	}
 
 	public String getText() {

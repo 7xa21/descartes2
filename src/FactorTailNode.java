@@ -45,15 +45,35 @@ public class FactorTailNode {
 		return m_factor == null;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
-		double factorVal = m_factor.getVal(symTab);
+	public Operator getOper() {
+		return m_oper;
+	}
 
-		if (!m_factorTail.isEmpty()) {
-			double tailVal = m_factorTail.getVal(symTab);
+	public double getVal(HashMap<String, Double> symTab) {
+		double factorVal;
+
+		if (m_factor != null) {
+			factorVal = m_factor.getVal(symTab);
+		} else {
+			factorVal = 0.0;
+
+			// If m_factor is null, m_factorTail should be null too
+			assert(m_factorTail == null);
+		}
+
+		if (m_factorTail != null && !m_factorTail.isEmpty()) {
+			// Get the value of the factor tail.
+			double factorTailVal = m_factorTail.getVal(symTab);
+
 			if (m_factorTail.m_oper == Operator.MULTIPLY) {
-				factorVal *= tailVal;
+				factorVal *= factorTailVal;
 			} else {
-				factorVal /= tailVal;
+				// If the non-empty factor-tail isn't a
+				// multiplication operation, then it HAS to be a
+				// division operation.
+				assert(m_factorTail.getOper()
+						== FactorTailNode.Operator.DIVIDE);
+				factorVal /= factorTailVal;
 			}
 		}
 

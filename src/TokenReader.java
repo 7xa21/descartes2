@@ -40,8 +40,9 @@ class TokenReader {
 	public void unread(TokenDescriptor descrip)
 		throws IOException
 	{
-		//m_inStream.unread(' ');
-		for (int i = 0; i < descrip.getText().length(); i++) {
+		// unread() each char in the token (backwards, so that it
+		// reads forward the next time getToken() is called).
+		for (int i = descrip.getText().length() - 1; i >= 0 ; i--) {
 			char ch = descrip.getText().charAt(i);
 			m_inStream.unread(ch);
 		}
@@ -418,7 +419,17 @@ class TokenReader {
 			//
 
 			tokenText = "'\n";
-			tokenCode = TokenCode.T_EOL;
+			// tokenCode = TokenCode.T_EOL;
+
+			//
+			// 2015-04-25 (RS) - for Descartes, since spaces and
+			//		newlines have the same "authority" to separate
+			//		tokens, let's just convert newlines into space
+			//		tokens. This unclutters the parsing code a
+			// 		bit.
+			//
+
+			tokenCode = TokenCode.T_SPACE;
 		} else if (isPunct(ch)) {
 			//
 			// Possibly an operator token. This is different from
