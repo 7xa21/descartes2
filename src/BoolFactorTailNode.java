@@ -31,24 +31,23 @@ public class BoolFactorTailNode {
 		return m_boolFactor == null;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(double assoc, HashMap<String, Double> symTab) {
 		// Get the value of the child bool-factor.
-		double factorVal = m_boolFactor.getVal(symTab);
+		double factorVal = assoc;
 
-		// If the child bool-factor-tail isn't empty, then this is
-		// a conditional/boolean bool-factor-tail.
-		if (!m_boolFactorTail.isEmpty()) {
-			// Get the value of the child bool-factor-tail.
-			double tailVal = m_boolFactorTail.getVal(symTab);
+		if (m_boolFactor != null) {
+			assert(m_boolFactorTail != null);
 
-			// If both the bool-factor or bool-factor-tail
-			// values are non-zero, return 1; otherwise return 0.
+			double tailVal = m_boolFactor.getVal(symTab);
+			tailVal = m_boolFactorTail.getVal(tailVal, symTab);
+
 			if (factorVal != 0.0 && tailVal != 0.0) {
 				factorVal = 1.0;
 			} else {
 				factorVal = 0.0;
 			}
 		}
+
 
 		return factorVal;
 	}

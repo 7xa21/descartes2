@@ -24,25 +24,9 @@ public class TermNode {
 		// Get the value of the child factor.
 		double factorVal = m_factor.getVal(symTab);
 
-		// If the child factor-tail isn't empty, then this is an
-		// arithmetic expression
-		if (!m_factorTail.isEmpty()) {
-			// Get the value of the factor-tail.
-			double factorTailVal = m_factorTail.getVal(symTab);
+		// The value may be modified by the factor tail.
+		factorVal = m_factorTail.getVal(factorVal, symTab);
 
-			// Look at the operator of the factor-tail and perform
-			// the operation.
-			if (m_factorTail.getOper() == FactorTailNode.Operator.MULTIPLY) {
-				factorVal *= factorTailVal;
-			} else {
-				// If the non-empty factor-tail isn't a
-				// multiplication operation, then it HAS to be a
-				// division operation.
-				assert(m_factorTail.getOper()
-						== FactorTailNode.Operator.DIVIDE);
-				factorVal /= factorTailVal;
-			}
-		}
 
 		return factorVal;
 	}

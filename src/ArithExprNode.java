@@ -24,18 +24,8 @@ public class ArithExprNode {
 		// Get the value of the child term.
 		double termVal = m_term.getVal(symTab);
 
-		// Check if the child term-tail is not empty.
-		if (!m_termTail.isEmpty()) {
-			double tailVal = m_termTail.getVal(symTab);
-			if (m_termTail.getOper() == TermTailNode.Operator.ADD) {
-				termVal += tailVal;
-			} else {
-				// If the non-empty term-tail isn't an addition
-				// operation then it HAS to be a subtraction
-				// operation.
-				termVal -= tailVal;
-			}
-		}
+		// The value may be modified by the term tail.
+		termVal = m_termTail.getVal(termVal, symTab);
 
 
 		return termVal;

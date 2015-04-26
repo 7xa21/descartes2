@@ -41,41 +41,27 @@ public class FactorTailNode {
 		m_factorTail = null;
 	}
 
-	public boolean isEmpty() {
-		return m_factor == null;
-	}
-
-	public Operator getOper() {
-		return m_oper;
-	}
-
-	public double getVal(HashMap<String, Double> symTab) {
-		double factorVal;
+	public double getVal(double assoc, HashMap<String, Double> symTab) {
+		// The "associate" is the value modified by this tail (if
+		// the tail isn't empty).
+		double factorVal = assoc;
 
 		if (m_factor != null) {
-			factorVal = m_factor.getVal(symTab);
-		} else {
-			factorVal = 0.0;
+			assert(m_factorTail != null);
 
-			// If m_factor is null, m_factorTail should be null too
-			assert(m_factorTail == null);
-		}
+			// Calculate the value of this factor tail.
+			double tailVal = m_factor.getVal(symTab);
+			tailVal = m_factorTail.getVal(tailVal, symTab);
 
-		if (m_factorTail != null && !m_factorTail.isEmpty()) {
-			// Get the value of the factor tail.
-			double factorTailVal = m_factorTail.getVal(symTab);
-
-			if (m_factorTail.m_oper == Operator.MULTIPLY) {
-				factorVal *= factorTailVal;
+			// Transform the factor value by the factor tail
+			// value.
+			if (m_oper == Operator.MULTIPLY) {
+				factorVal *= tailVal;
 			} else {
-				// If the non-empty factor-tail isn't a
-				// multiplication operation, then it HAS to be a
-				// division operation.
-				assert(m_factorTail.getOper()
-						== FactorTailNode.Operator.DIVIDE);
-				factorVal /= factorTailVal;
+				factorVal /= tailVal;
 			}
 		}
+
 
 		return factorVal;
 	}
@@ -94,6 +80,13 @@ public class FactorTailNode {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);
 
+		//
+		// GR 42/43:
+		//
+		//		factor-tail : * term term-tail
+		//		factor-tail : / term term-tail
+		//
+
 		// Look for a '*' or a '/'.
 		Operator oper = null;
 		if (token.getCode() == TokenCode.T_MULTIPLY) {
@@ -110,7 +103,15 @@ public class FactorTailNode {
 			FactorTailNode nextFactorTail =
 					FactorTailNode.parseFactorTail(tokenReader);
 			factorTail = new FactorTailNode(oper, factor, nextFactorTail);
-		} else {
+		}
+
+		//
+		// GR 44:
+		//
+		//		factor-tail :
+		//
+
+		else {
 			// This factor tail is empty. Since the token we read
 			// isn't part of the factor tail, unread it.
 			tokenReader.unread(token);

@@ -38,43 +38,25 @@ public class TermTailNode {
 		m_termTail = null;
 	}
 
-	public boolean isEmpty() {
-		return m_term == null;
-	}
-
-	public Operator getOper() {
-		return m_oper;
-	}
-
-	public double getVal(HashMap<String, Double> symTab)
-	{
+	public double getVal(double assoc, HashMap<String, Double> symTab) {
 		// Get the value of the child term.
-		double termVal;
+		double termVal = assoc;
+
 		if (m_term != null) {
-			termVal = m_term.getVal(symTab);
-		} else {
-			termVal = 0.0;
+			assert(m_termTail != null);
 
-			// If m_term is null, m_termTail should be null too
-			assert(m_termTail == null);
-		}
+			// Calculate the value of this term tail.
+			double tailVal = m_term.getVal(symTab);
+			tailVal = m_termTail.getVal(tailVal, symTab);
 
-		if (m_termTail != null && !m_termTail.isEmpty()) {
-			// Get the value of the child term-tail.
-			double termTailVal = m_termTail.getVal(symTab);
-
-			// Look at the operator of the factor-tail and perform
-			// the operation.
-			if (m_termTail.getOper() == Operator.ADD) {
-				termVal += termTailVal;
+			// Translate the term value by the term tail value.
+			if (m_oper == Operator.ADD) {
+				termVal += tailVal;
 			} else {
-				// If this non-empty term-tail isn't an addition
-				// operation, then it HAS to be a subtraction
-				// operation.
-				assert(m_termTail.getOper() == Operator.SUBTRACT);
-				termVal -= termTailVal;
+				termVal -= tailVal;
 			}
 		}
+
 
 		return termVal;
 	}

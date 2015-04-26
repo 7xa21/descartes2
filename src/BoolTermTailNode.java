@@ -31,24 +31,23 @@ public class BoolTermTailNode {
 		return m_boolTerm == null;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(double assoc, HashMap<String, Double> symTab) {
 		// Get the value of the child bool-term.
-		double termVal = m_boolTerm.getVal(symTab);
+		double termVal = assoc;
 
-		// If the child bool-term-tail isn't empty, then this is
-		// a conditional/boolean bool-term-tail.
-		if (!m_boolTermTail.isEmpty()) {
-			// Get the value of the child bool-term-tail.
-			double tailVal = m_boolTermTail.getVal(symTab);
+		if (m_boolTerm != null) {
+			assert(m_boolTermTail != null);
 
-			// If either the bool-term or bool-term-tail values
-			// are non-zero, return 1; otherwise return 0.
+			double tailVal = m_boolTerm.getVal(symTab);
+			tailVal = m_boolTermTail.getVal(tailVal, symTab);
+
 			if (termVal != 0.0 || tailVal != 0.0) {
 				termVal = 1.0;
 			} else {
 				termVal = 0.0;
 			}
 		}
+
 
 		return termVal;
 	}

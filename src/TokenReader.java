@@ -234,25 +234,15 @@ class TokenReader {
 		// alpha token.
 		while (m_inStream.available() > 0) {
 			ch = (char)m_inStream.read();
-			if (!Character.isAlphabetic(ch) && !Character.isDigit(ch)) {
+
+			if (!Character.isAlphabetic(ch) &&
+					!Character.isDigit(ch))
+			{
 				// Not an alpha char.
 				// Put it back and exit the loop.
 				m_inStream.unread(ch);
 				break;
 			}
-
-			//
-			// If we were to allow digits and underscores in
-			// identifiers, the if condition would look like
-			// this instead:
-			//
-			//		if (!Character.isAlphabetic(ch) &&
-			//			!Character.isDigit(ch) &&
-			//			ch != '_') {
-			//
-			// The first character is validated as an alpha char
-			// at the beginning of the method.
-			//
 
 			token.append(ch);
 		}

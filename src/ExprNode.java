@@ -24,20 +24,10 @@ public class ExprNode {
 		// Get the value of the child bool-term.
 		double termVal = m_boolTerm.getVal(symTab);
 
-		// If the child bool-term-tail isn't empty, then this is a
-		// conditional/boolean expression.
-		if (!m_boolTermTail.isEmpty()) {
-			// Get the value of the child bool-term-tail.
-			double tailVal = m_boolTermTail.getVal(symTab);
+		// The value of the expression may be modified by the bool
+		// term tail.
+		termVal = m_boolTermTail.getVal(termVal, symTab);
 
-			// If either the bool-term or bool-term-tail value are
-			// non-zero, return 1; otherwise return 0.
-			if (termVal != 0.0 || tailVal != 0.0) {
-				termVal = 1.0;
-			} else {
-				termVal = 0.0;
-			}
-		}
 
 		return termVal;
 	}
