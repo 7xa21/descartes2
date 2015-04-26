@@ -80,13 +80,6 @@ public class FactorNode {
 
 		// Look for a '-' unary operator.
 		if (token.getCode() == TokenCode.T_SUBTRACT) {
-			// Eat any spaces before the (negated) factor.
-			/*
-			do {
-				token = tokenReader.getToken();
-			} while (token.getCode() == TokenCode.T_SPACE);
-			*/
-
 			// Read the (negated) factor.
 			FactorNode negFactor = FactorNode.parseFactor(tokenReader);
 
@@ -101,14 +94,6 @@ public class FactorNode {
 
 		// Look for a '(' character.
 		else if (token.getCode() == TokenCode.T_OPEN_PAREN) {
-			// Eat any spaces between the open parenthesis and the
-			// expression.
-			/*
-			do {
-				token = tokenReader.getToken();
-			} while (token.getCode() == TokenCode.T_SPACE);
-			*/
-
 			// Read the expression.
 			ExprNode expr = ExprNode.parseExpr(tokenReader);
 
