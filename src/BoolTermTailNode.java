@@ -27,10 +27,6 @@ public class BoolTermTailNode {
 		m_boolTermTail = null;
 	}
 
-	public boolean isEmpty() {
-		return m_boolTerm == null;
-	}
-
 	public double getVal(double assoc, HashMap<String, Double> symTab) {
 		// Get the value of the child bool-term.
 		double termVal = assoc;

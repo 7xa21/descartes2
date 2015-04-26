@@ -8,19 +8,29 @@ public class BoolFactorNode {
 	//==================//
 
 	private ArithExprNode m_arithExpr;
+	private RelationOptionNode m_relationOption;
 
 
 	//=========//
 	// Methods //
 	//=========//
 
-	public BoolFactorNode(ArithExprNode arithExpr) {
+	public BoolFactorNode(ArithExprNode arithExpr,
+						  RelationOptionNode relationOption) {
 		m_arithExpr = arithExpr;
+		m_relationOption = relationOption;
 	}
 
 	public double getVal(HashMap<String, Double> symTab) {
 		// Return the value of the child arith-expr.
-		return m_arithExpr.getVal(symTab);
+		double arithExprVal = m_arithExpr.getVal(symTab);
+
+		// The value of the arithmetic expression may be modified
+		// by the subsequent relation option.
+		arithExprVal = m_relationOption.getVal(arithExprVal, symTab);
+
+
+		return arithExprVal;
 	}
 
 
@@ -39,8 +49,8 @@ public class BoolFactorNode {
 
 		// Read the arith-expr and relation-option
 		ArithExprNode arithExpr = ArithExprNode.parseArithExpr(tokenReader);
-//		RelationOptionNode relationOption =
-//		 		RelationOptionNode.parseRelationOption(tokenReader);
-		return new BoolFactorNode(arithExpr /*, relationOption */);
+		RelationOptionNode relationOption =
+		 		RelationOptionNode.parseRelationOption(tokenReader);
+		return new BoolFactorNode(arithExpr, relationOption);
 	}
 }

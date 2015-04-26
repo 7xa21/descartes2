@@ -6,6 +6,7 @@ public class TermTailNode {
 	//=============//
 	// Local Types //
 	//=============//
+
 	public enum Operator {
 		ADD,
 		SUBTRACT

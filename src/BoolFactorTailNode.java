@@ -27,10 +27,6 @@ public class BoolFactorTailNode {
 		m_boolFactorTail = null;
 	}
 
-	public boolean isEmpty() {
-		return m_boolFactor == null;
-	}
-
 	public double getVal(double assoc, HashMap<String, Double> symTab) {
 		// Get the value of the child bool-factor.
 		double factorVal = assoc;

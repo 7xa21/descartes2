@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class Descartes {
 
@@ -40,8 +42,11 @@ public class Descartes {
 			HashMap<String, Double> symTab = new HashMap<String, Double>();
 			progNode.execute(symTab);
 
-			// Dump the symbol table.
-			for (String key : symTab.keySet()) {
+			// Dump the symbol table. Use a TreeSet so the keys
+			// are sorted.
+			TreeSet<String> keys = new TreeSet<String>();
+			keys.addAll(symTab.keySet());
+			for (String key : keys) {
 				System.out.println(key + " : " + symTab.get(key));
 			}
 		} catch (DCSyntaxErrorException e) {
