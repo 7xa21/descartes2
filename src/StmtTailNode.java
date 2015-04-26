@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class StmtTailNode {
 
@@ -51,12 +52,14 @@ public class StmtTailNode {
 	public static StmtTailNode parseStmtTail(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
+		Stack<TokenDescriptor> toReplace = new Stack<TokenDescriptor>();
 		StmtTailNode stmtTail;
 		TokenDescriptor token;
 
 		// Eat leading spaces.
 		do {
 			token = tokenReader.getToken();
+			toReplace.push(token);
 		} while (token.getCode() == TokenCode.T_SPACE);
 
 
@@ -84,6 +87,10 @@ public class StmtTailNode {
 
 		// If no semicolon, the statement tail is blank.
 		else {
+			// Unread all the tokens we just read.
+			while (!toReplace.isEmpty()) {
+				tokenReader.unread(toReplace.pop());
+			}
 			stmtTail = new StmtTailNode();
 		}
 

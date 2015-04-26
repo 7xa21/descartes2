@@ -35,7 +35,7 @@ public class BoolTermNode {
 
 			// If either the bool-factor or bool-factor-tail
 			// values are non-zero, return 1; otherwise return 0.
-			if (factorVal != 0.0 || tailVal != 0.0) {
+			if (factorVal != 0.0 && tailVal != 0.0) {
 				factorVal = 1.0;
 			} else {
 				factorVal = 0.0;

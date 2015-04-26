@@ -3,5 +3,5 @@ EPSILON := 0.000001;
 K       :=1;
 DIFF	:= SUM - 1;
 PROD	:= EPSILON * SUM;
-OPORD	:= -3 * (2 + 2)
+OPORD	:= -3 * (2 + 2);
 .

@@ -1,0 +1,13 @@
+NUM5 := 5.0;
+NUM3 := 3.0;
+NUM7 := 7.0;
+NUM0 := 0.0;
+T1 := (1 AND 1);
+T2 := (1 OR 0);
+T3 := 0 OR 1;
+T4 := NUM5 AND NUM3;
+T5 := NUM5 OR NUM7;
+F1 := NUM0 AND NUM7;
+F2 := NUM0 OR 0.0;
+F3 := NUM5 AND 0.0;
+.

@@ -234,7 +234,7 @@ class TokenReader {
 		// alpha token.
 		while (m_inStream.available() > 0) {
 			ch = (char)m_inStream.read();
-			if (!Character.isAlphabetic(ch)) {
+			if (!Character.isAlphabetic(ch) && !Character.isDigit(ch)) {
 				// Not an alpha char.
 				// Put it back and exit the loop.
 				m_inStream.unread(ch);
@@ -418,7 +418,7 @@ class TokenReader {
 			// Newline token.
 			//
 
-			tokenText = "'\n";
+			tokenText = "\n";
 			// tokenCode = TokenCode.T_EOL;
 
 			//

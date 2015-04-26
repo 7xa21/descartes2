@@ -42,15 +42,15 @@ public class AssignStmtNode extends StmtNode {
 		boolean detected = false;
 		TokenDescriptor token;
 
-		// Eat up spaces. I can't see any reason these need to be
-		// unread() back.
+		// Eat up spaces.
 		do {
 			token = tokenReader.getToken();
+			toReplace.push(token);
 		} while (token.getCode() == TokenCode.T_SPACE);
 
 		// Look for an ID token.
 		if (token.getCode() == TokenCode.T_ID) {
-			toReplace.push(token);
+//			toReplace.push(token);
 
 			// Eat up spaces after ID.
 			do {
@@ -84,7 +84,13 @@ public class AssignStmtNode extends StmtNode {
 		//
 
 		// Get the ID.
-		TokenDescriptor token = tokenReader.getToken();
+		TokenDescriptor token;
+
+		// Eat up spaces.
+		do {
+			token = tokenReader.getToken();
+		} while (token.getCode() == TokenCode.T_SPACE);
+
 		assert(token.getCode() == TokenCode.T_ID);
 		String id = token.getText();
 
