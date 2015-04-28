@@ -420,6 +420,9 @@ class TokenReader {
 			//
 
 			tokenCode = TokenCode.T_SPACE;
+		} else if (ch == '\r') {
+			// Ignore DOS carriage return characters.
+			return getToken();
 		} else if (isPunct(ch)) {
 			//
 			// Possibly an operator token. This is different from
