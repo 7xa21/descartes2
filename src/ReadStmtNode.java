@@ -19,8 +19,8 @@ public class ReadStmtNode extends StmtNode {
 	//=======//
 	
 	public ReadStmtNode (String id, idListTailNode idListTail){
-	id = m_id;
-	idListTail = m_idListTail;
+	m_id = id;
+	m_idListTail = idListTail;
 	}
 	
 	
