@@ -42,14 +42,21 @@ public class StmtNode {
 		//
 
 		StmtNode node;
-
+		//
+		//  GR 4:
+		//
+		//		stmt : if-stmt
+		//
+		if(IfStmtNode.detectIfStmt(tokenReader)){
+			node = IfStmtNode.parseIf(tokenReader);
+		}
 
 		//
 		// GR 7:
 		//
 		//		stmt : assign-stmt
 		//
-		if (AssignStmtNode.detectAssignStmt(tokenReader)) {
+		else if (AssignStmtNode.detectAssignStmt(tokenReader)) {
 			node = AssignStmtNode.parseAssignStmt(tokenReader);
 		}
 
