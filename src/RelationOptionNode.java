@@ -34,11 +34,6 @@ public class RelationOptionNode {
         m_arithExpr = arithExpr;
     }
 
-    public RelationOptionNode() {
-        m_oper = null;
-        m_arithExpr = null;
-    }
-
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -87,7 +82,7 @@ public class RelationOptionNode {
         } while (token.getCode() == TokenCode.T_SPACE);
 
         //
-        // GR 30/31/32/33/34/35:
+        // GR 30 / 31 / 32 / 33 / 34 / 35:
         //
         //		relation-option : < arith-expr
         //		relation-option : <= arith-expr
@@ -118,7 +113,7 @@ public class RelationOptionNode {
         //		relation-option :
         //
         else {
-            relationOption = new RelationOptionNode();
+            relationOption = new RelationOptionNode(null, null);
             tokenReader.unread(token);
         }
 

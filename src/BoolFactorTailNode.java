@@ -22,11 +22,6 @@ public class BoolFactorTailNode {
         m_boolFactorTail = boolFactorTail;
     }
 
-    public BoolFactorTailNode() {
-        m_boolFactor = null;
-        m_boolFactorTail = null;
-    }
-
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -95,7 +90,7 @@ public class BoolFactorTailNode {
         // reader).
         else {
             tokenReader.unread(token);
-            factorTail = new BoolFactorTailNode();
+            factorTail = new BoolFactorTailNode(null, null);
         }
 
 

@@ -17,10 +17,6 @@ public class IDOptionNode {
         m_id = id;
     }
 
-    public IDOptionNode() {
-        m_id = null;
-    }
-
     public void popLoopID(ProgState progState) {
         // If the ID is null, only pop the most recent loop id off
         // the stack.
@@ -76,7 +72,7 @@ public class IDOptionNode {
             tokenReader.unread(token);
 
             // Create an empty id-option.
-            idOption = new IDOptionNode();
+            idOption = new IDOptionNode(null);
         }
 
 

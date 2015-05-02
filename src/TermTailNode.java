@@ -33,12 +33,6 @@ public class TermTailNode {
         m_termTail = termTail;
     }
 
-    public TermTailNode() {
-        m_oper = null;
-        m_term = null;
-        m_termTail = null;
-    }
-
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -117,7 +111,7 @@ public class TermTailNode {
         // back to the TokenReader).
         else {
             tokenReader.unread(token);
-            termTail = new TermTailNode();
+            termTail = new TermTailNode(null, null, null);
         }
 
 

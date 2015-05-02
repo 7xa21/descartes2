@@ -22,11 +22,6 @@ public class BoolTermTailNode {
         m_boolTermTail = boolTermTail;
     }
 
-    public BoolTermTailNode() {
-        m_boolTerm = null;
-        m_boolTermTail = null;
-    }
-
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -93,7 +88,7 @@ public class BoolTermTailNode {
         // reader).
         else {
             tokenReader.unread(token);
-            termTail = new BoolTermTailNode();
+            termTail = new BoolTermTailNode(null, null);
         }
 
 

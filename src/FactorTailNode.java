@@ -35,12 +35,6 @@ public class FactorTailNode {
         m_factorTail = factorTail;
     }
 
-    public FactorTailNode() {
-        m_oper = null;
-        m_factor = null;
-        m_factorTail = null;
-    }
-
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -120,7 +114,7 @@ public class FactorTailNode {
             // This factor tail is empty. Since the token we read
             // isn't part of the factor tail, unread it.
             tokenReader.unread(token);
-            factorTail = new FactorTailNode();
+            factorTail = new FactorTailNode(null, null, null);
         }
 
         return factorTail;
