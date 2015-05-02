@@ -20,12 +20,14 @@ public class TermNode {
 		m_factorTail = factorTail;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Get the value of the child factor.
-		double factorVal = m_factor.getVal(symTab);
+		double factorVal = m_factor.getVal(progState);
 
 		// The value may be modified by the factor tail.
-		factorVal = m_factorTail.getVal(factorVal, symTab);
+		factorVal = m_factorTail.getVal(factorVal, progState);
 
 
 		return factorVal;

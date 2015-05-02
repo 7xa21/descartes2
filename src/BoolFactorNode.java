@@ -21,13 +21,15 @@ public class BoolFactorNode {
 		m_relationOption = relationOption;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Return the value of the child arith-expr.
-		double arithExprVal = m_arithExpr.getVal(symTab);
+		double arithExprVal = m_arithExpr.getVal(progState);
 
 		// The value of the arithmetic expression may be modified
 		// by the subsequent relation option.
-		arithExprVal = m_relationOption.getVal(arithExprVal, symTab);
+		arithExprVal = m_relationOption.getVal(arithExprVal, progState);
 
 
 		return arithExprVal;

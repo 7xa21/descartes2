@@ -20,12 +20,14 @@ public class ArithExprNode {
 		m_termTail = termTail;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Get the value of the child term.
-		double termVal = m_term.getVal(symTab);
+		double termVal = m_term.getVal(progState);
 
 		// The value may be modified by the term tail.
-		termVal = m_termTail.getVal(termVal, symTab);
+		termVal = m_termTail.getVal(termVal, progState);
 
 
 		return termVal;

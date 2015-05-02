@@ -39,24 +39,24 @@ public class idListTailNode {
 			symTab.put(m_id, num);
 	}
 	
-	public void read(HashMap<String, Double> symTab){
+	public void read(ProgState progState){
 		
 		if (m_id != null){
 			Scanner input = new Scanner(System.in);
 			double num = input.nextDouble();
 			
 			// Assign the user's value to the ID.
-				symTab.put(m_id, num);
+				progState.symTab().put(m_id, num);
 				
-				m_idListTail.read(symTab);
+				m_idListTail.read(progState);
 		}
 	}
 	
-	public void print(HashMap<String, Double> symTab){
+	public void print(ProgState progState){
 		if(m_id != null){
-			System.out.println(symTab.get(m_id));
+			System.out.println(progState.symTab().get(m_id));
 			
-			m_idListTail.print(symTab);
+			m_idListTail.print(progState);
 		}
 		
 	}
@@ -80,7 +80,6 @@ public class idListTailNode {
 
 		// Look for a COMMA token.
 		if (token.getCode() == TokenCode.T_COMMA) {
-
 			// Eat up spaces after COMMA.
 			do {
 				token = tokenReader.getToken();
@@ -107,18 +106,6 @@ public class idListTailNode {
 	public static idListTailNode parseidListTail(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
-		//
-		// GR 21:
-		//
-		//		id-list-tail : , ID id-list-tail
-		//
-		// GR 22:
-		//		
-		//		id-list-tail :
-		//
-		//
-		
-		
 		TokenDescriptor token;
 		String id;
 		idListTailNode idListTail;
@@ -127,9 +114,14 @@ public class idListTailNode {
 		do {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);
-		
-		if (token.getCode() == TokenCode.T_COMMA){
-	
+
+		//
+		// GR 21:
+		//
+		//		id-list-tail : , ID id-list-tail
+		//
+
+		if (token.getCode() == TokenCode.T_COMMA) {
 			// Eat up spaces after READ.
 			do {
 				token = tokenReader.getToken();
@@ -137,7 +129,10 @@ public class idListTailNode {
 	
 			// "token" should now be the first non-space token after
 			// the COMMA, which should be ID.
-			assert(token.getCode() == TokenCode.T_ID);
+			if (token.getCode() != TokenCode.T_ID) {
+				throw new DCSyntaxErrorException(tokenReader,
+						"Expected identifier after ','.");
+			}
 			id = token.getText();
 	
 			// Read the id-list-tail.
@@ -148,12 +143,19 @@ public class idListTailNode {
 			idListTail = new idListTailNode(id, NextIdListTail);
 		}
 
-		else{
+		//
+		// GR 22:
+		//
+		//		id-list-tail :
+		//
+
+		else {
 			// The idListTailNode is empty.
+			tokenReader.unread(token);
 			idListTail = new idListTailNode();
 		}
 			
-			return idListTail;
+		return idListTail;
 	}
 
 }

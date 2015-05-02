@@ -17,9 +17,11 @@ public class ProgNode {
 		m_stmtList = stmtList;
 	}
 
-	public void execute(HashMap<String, Double> symTab) {
+	public void execute(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Execute child stmt-list.
-		m_stmtList.execute(symTab);
+		m_stmtList.execute(progState);
 	}
 
 
@@ -46,7 +48,10 @@ public class ProgNode {
 		} while (token.getCode() == TokenCode.T_SPACE);
 
 		// "token" should now be the trailing period.
-		assert(token.getCode() == TokenCode.T_PERIOD);
+		if (token.getCode() != TokenCode.T_PERIOD) {
+			throw new DCSyntaxErrorException(tokenReader,
+					"Expected '.' after program statement list.");
+		}
 
 
 		return new ProgNode(stmtList);

@@ -39,13 +39,15 @@ public class RelationOptionNode {
 		m_arithExpr = null;
 	}
 
-	public double getVal(double assoc, HashMap<String, Double> symTab) {
+	public double getVal(double assoc, ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		double relationOptionVal = assoc;
 
 		if (m_oper != null) {
 			assert(m_arithExpr != null);
 
-			double arithExprVal = m_arithExpr.getVal(symTab);
+			double arithExprVal = m_arithExpr.getVal(progState);
 
 			if (m_oper == Operator.LESS_THAN) {
 				relationOptionVal = relationOptionVal < arithExprVal ? 1 : 0;

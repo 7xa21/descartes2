@@ -41,7 +41,9 @@ public class FactorTailNode {
 		m_factorTail = null;
 	}
 
-	public double getVal(double assoc, HashMap<String, Double> symTab) {
+	public double getVal(double assoc, ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// The "associate" is the value modified by this tail (if
 		// the tail isn't empty).
 		double factorVal = assoc;
@@ -50,14 +52,17 @@ public class FactorTailNode {
 			assert(m_factorTail != null);
 
 			// Calculate the value of this factor tail.
-			double tailVal = m_factor.getVal(symTab);
-			tailVal = m_factorTail.getVal(tailVal, symTab);
+			double tailVal = m_factor.getVal(progState);
+			tailVal = m_factorTail.getVal(tailVal, progState);
 
 			// Transform the factor value by the factor tail
 			// value.
 			if (m_oper == Operator.MULTIPLY) {
 				factorVal *= tailVal;
 			} else {
+				if (tailVal == 0.0) {
+					throw new DCRuntimeErrorException("Division by zero.");
+				}
 				factorVal /= tailVal;
 			}
 		}

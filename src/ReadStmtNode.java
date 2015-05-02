@@ -6,36 +6,38 @@ import java.util.Stack;
 
 public class ReadStmtNode extends StmtNode {
 	
-	//================//
-	//Member Variables//
-	//================//
+	//==================//
+	// Member Variables //
+	//==================//
 	
 	private String m_id;
 	private idListTailNode m_idListTail;
 	
 	
-	//=======//
-	//Methods//
-	//=======//
+	//=========//
+	// Methods //
+	//=========//
 	
-	public ReadStmtNode (String id, idListTailNode idListTail){
-	m_id = id;
-	m_idListTail = idListTail;
+	public ReadStmtNode (String id, idListTailNode idListTail) {
+		m_id = id;
+		m_idListTail = idListTail;
 	}
 	
-	
-	public void execute(HashMap<String, Double> symTab) {
-		
+	public void execute(ProgState progState) {
 		Scanner input = new Scanner(System.in);
 		double num = input.nextDouble();
 		
 		// Assign the user's value to the ID.
-			symTab.put(m_id, num);
-			
-			m_idListTail.read(symTab);
+		progState.symTab().put(m_id, num);
+
+		m_idListTail.read(progState);
 	}
-	
-	
+
+
+	//================//
+	// Static Methods //
+	//================//
+
 	public static boolean detectReadStmt(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
@@ -54,19 +56,7 @@ public class ReadStmtNode extends StmtNode {
 
 		// Look for a READ token.
 		if (token.getCode() == TokenCode.T_READ) {
-
-			// Eat up spaces after READ.
-			do {
-				token = tokenReader.getToken();
-				toReplace.push(token);
-			} while (token.getCode() == TokenCode.T_SPACE);
-
-			// "token" is now the first token after the space(s).
-
-			// Look for an ID token.
-			if (token.getCode() == TokenCode.T_ID) {
-				detected = true;
-			}
+			detected = true;
 		}
 
 		// unread() all the tokens we just read.
@@ -74,8 +64,10 @@ public class ReadStmtNode extends StmtNode {
 			tokenReader.unread(toReplace.pop());
 		}
 
+
 		return detected;
 	}
+
 
 	public static ReadStmtNode parseReadStmt(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
@@ -86,9 +78,9 @@ public class ReadStmtNode extends StmtNode {
 		//		read-stmt : READ ID id-list-tail
 		//
 
-		//
 		TokenDescriptor token;
 		String id;
+
 		// Eat up spaces.
 		do {
 			token = tokenReader.getToken();
@@ -103,11 +95,15 @@ public class ReadStmtNode extends StmtNode {
 
 		// "token" should now be the first non-space token after
 		// the ID, which should be ID.
-		assert(token.getCode() == TokenCode.T_ID);
+		if (token.getCode() != TokenCode.T_ID) {
+			throw new DCSyntaxErrorException(tokenReader,
+					"Expected identifier after 'READ'.");
+		}
 		id = token.getText();
 
 		// Read the id-list-tail.
-		idListTailNode idListTail = idListTailNode.parseidListTail(tokenReader);
+		idListTailNode idListTail =
+				idListTailNode.parseidListTail(tokenReader);
 
 
 		return new ReadStmtNode(id, idListTail);

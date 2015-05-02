@@ -11,7 +11,14 @@
 import java.io.*;
 import java.util.HashMap;
 
-class TokenReader {
+/**
+ * This class is used to tokenize Descartes 2 source code for the
+ * various parsing methods used by each node in the parse tree.
+ *
+ * It provides the getToken() method the infamous assignment of
+ * the same name.
+ */
+public class TokenReader {
 
 	//==================//
 	// Member Variables //
@@ -32,40 +39,26 @@ class TokenReader {
 	// can be called.
 	private PushbackInputStream m_inStream;
 
+	// Store the name of the input file locally. This is used for
+	// intelligent syntax error reporting.
+	private String m_fileName;
 
-	//=========//
-	// Methods //
-	//=========//
+	// Keeps track of the line number in the source code file
+	// being read. This is used for intelligent syntax error
+	// reporting.
+	private int m_lineNum;
 
-	public void unread(TokenDescriptor descrip)
-		throws IOException
-	{
-		// unread() each char in the token (backwards, so that it
-		// reads forward the next time getToken() is called).
-		for (int i = descrip.getText().length() - 1; i >= 0 ; i--) {
-			char ch = descrip.getText().charAt(i);
-			m_inStream.unread(ch);
-		}
-	}
 
-	//
-	// Java's Character class inexplicably has no isPunct()
-	// method, so this one will suffice.
-	//
-	// It only includes characters found in the language's
-	// operators.
-	//
-	public static boolean isPunct(int ch) {
-		String pChars = ".*()/+-<>=.:;";
-		return pChars.contains(Character.toString((char)ch));
-	}
-
-	//
-	// Construct a new TokenReader that will read input from
-	// "stream".
-	//
-	public TokenReader(InputStream stream) {
-		// Initialize member variables.
+	/**
+	 * Construct a new TokenReader instance, with source code
+	 * being read from the specified stream.
+	 *
+	 * @param stream The stream to read source code from
+	 */
+	public TokenReader(String fileName, InputStream stream) {
+		// Create a PushbackInputStream to read code from. This
+		// allows characters to be "unread" back to the stream for
+		// later use.
 		m_inStream = new PushbackInputStream(stream, 30);
 
 		// Keyword dictionary.
@@ -101,8 +94,15 @@ class TokenReader {
 		m_operators.put(";", TokenCode.T_SEMICOLON);
 		m_operators.put(".", TokenCode.T_PERIOD);
 		m_operators.put(",", TokenCode.T_COMMA);
+
+		// Save the input file name for syntax error reporting.
+		m_fileName = fileName;
+
+		// Start reading on line 1.
+		m_lineNum = 1;
 	}
 
+	//============================================================
 	//
 	// The following methods read specific types of tokens
 	// and return them verbatim:
@@ -123,10 +123,19 @@ class TokenReader {
 	// This is because the getToken() method should verify the
 	// next token type before calling these.
 	//
+	//============================================================
 
-	//
-	// Read a numeric constant into a String and return it.
-	//
+	/**
+	 * Read a numeric constant into a String and return it.
+	 *
+	 * @return The String representation of a numeric literal
+	 * 		   token.
+	 *
+	 * @throws IOException Thrown if an error occurs while reading
+	 * 		   from the InputStream
+	 * @throws DCSyntaxErrorException Thrown if a syntax error is
+	 * 		   detected in the source code
+	 */
 	public String readNumber() throws IOException, DCSyntaxErrorException {
 		char ch;
 		StringBuilder token = new StringBuilder();
@@ -211,15 +220,16 @@ class TokenReader {
 		return token.toString();
 	}
 
-	//
-	// Read a token that begins with a letter of the alphabet.
-	//
-	// I considered allowing underscores and numbers after the
-	// leading alpha character, but ultimately decided against it.
-	// The exact definition of an identifier is not provided, and
-	// although whitespace is permitted to avoid ambiguity, there
-	// are no examples of such identifiers in the example file.
-	//
+	/**
+	 * Read a token that begins with a letter of the alphabet.
+	 *
+	 * @return An alphanumeric token read from the source code
+	 *
+	 * @throws IOException Thrown if an error occurs while reading
+	 * 		   from the InputStream
+	 * @throws DCSyntaxErrorException Thrown if a syntax error is
+	 * 		   detected in the source code
+	 */
 	public String readAlpha() throws IOException, DCSyntaxErrorException {
 		char ch;
 		StringBuilder token = new StringBuilder();
@@ -254,6 +264,9 @@ class TokenReader {
 	//
 	// Read a string literal and return it, including the
 	// surrounding quotation marks.
+	//
+	// Excluded from V2 because Descartes 2 doesn't feature string
+	// types.
 	//
 	/*
 	public String readString() throws IOException, DCSyntaxErrorException {
@@ -300,6 +313,12 @@ class TokenReader {
 	}
 	*/
 
+	/**
+	 * Returns a whitespace token as read from the input stream.
+	 *
+	 * @throws IOException Thrown if an error occurs while reading
+	 * 		   from the InputStream
+	 */
 	public void readSpace() throws IOException {
 		char ch;
 		boolean eof = false;
@@ -321,10 +340,17 @@ class TokenReader {
 			m_inStream.unread(ch);
 	}
 
-	//
-	// Reads a token from the input stream into a TokenDescriptor
-	// and returns it.
-	//
+	/**
+	 * Reads a token from the input stream into a TokenDescriptor
+	 * and returns it.
+	 *
+	 * @return The token read from the stream
+	 *
+	 * @throws IOException Thrown if an error occurs while reading
+	 * 		   from the InputStream
+	 * @throws DCSyntaxErrorException Thrown if a syntax error is
+	 * 		   detected in the source code
+	 */
 	public TokenDescriptor getToken()
 			throws IOException, DCSyntaxErrorException
 	{
@@ -420,8 +446,12 @@ class TokenReader {
 			//
 
 			tokenCode = TokenCode.T_SPACE;
+
+			// Increment line number counter.
+			++m_lineNum;
 		} else if (ch == '\r') {
-			// Ignore DOS carriage return characters.
+			// Ignore DOS carriage return characters (mumble
+			// grumble).
 			return getToken();
 		} else if (isPunct(ch)) {
 			//
@@ -481,14 +511,95 @@ class TokenReader {
 		return new TokenDescriptor(tokenText, tokenCode);
 	}
 
-	//
-	// Returns true if there are no more tokens to read from the
-	// input stream.
-	//
+	/**
+	 * Puts the token in 'descrip' back into the stream so that
+	 * can be read at a later time.
+	 *
+	 * This is useful for "peeking" into the stream and making
+	 * descisions about tokens before they're read.
+	 *
+	 * @param descrip The token to replace in the stream
+	 *
+	 * @throws IOException Thrown if the underlying
+	 * 					   PushbackInputStream used to read source
+	 * 					   code throws it
+	 *
+	 */
+	public void unread(TokenDescriptor descrip)
+			throws IOException
+	{
+		// unread() each char in the token (backwards, so that it
+		// reads forward the next time getToken() is called).
+		for (int i = descrip.getText().length() - 1; i >= 0 ; i--) {
+			char ch = descrip.getText().charAt(i);
+			m_inStream.unread(ch);
+
+			// Keep line counter up-to-date.
+			if (ch == '\n') {
+				--m_lineNum;
+			}
+		}
+	}
+
+	/**
+	 * Returns true if there are no more tokens to read from the
+	 * input stream.
+	 *
+	 * @return true if there are no more tokens to read from the
+	 * 		   input stream, false otherwise.
+	 *
+	 * @throws IOException Thrown if an error occurs while
+	 * 		   interacting with the source code InputStream
+	 */
 	public boolean atEnd() throws IOException {
 		return (m_inStream.available() == 0);
 	}
 
+	/**
+	 * Returns the name of the source code file that this
+	 * TokenReader is reading from.
+	 *
+	 * This is useful for reporting syntax errors.
+	 *
+	 * @return The name of the source code file currently being
+	 * 		   read.
+	 */
+	public String fileName() {
+		return m_fileName;
+	}
+
+	/**
+	 * Returns the current line number in the source code file.
+	 * This is useful for reporting syntax errors.
+	 *
+	 * @return The line number currently being read in the source
+	 * 		   code file
+	 */
+	public int lineNum() {
+		return m_lineNum;
+	}
+
+
+	//================//
+	// Static Methods //
+	//================//
+
+	/**
+	 * Java's Character class inexplicably has no isPunct()
+	 * method, so this one will suffice.
+	 *
+	 * It only includes characters found in the language's
+	 * operators.
+	 *
+	 * @param ch The character to test
+	 *
+	 * @return <pre>true</pre> if <pre>ch</pre> is a punctuation
+	 * 		   character, <pre>false</pre> otherwise
+	 */
+	public static boolean isPunct(int ch) {
+		String pChars = ".*()/+-<>=.:;,";
+		return pChars.contains(Character.toString((char)ch));
+	}
 
 	//================//
 	// Program entry. //
@@ -505,21 +616,24 @@ class TokenReader {
 	//		java TokenReader < token.dat
 	//
 	public static void main(String[] args) {
+		String fileName = "stdin";		// defaults to "stdin"
+
 		// Open source file (if name
 		// provided; otherwise read from stdin).
 		InputStream inStream = System.in;
 		try {
 			if (args.length > 0) {
-				inStream = new FileInputStream(args[0]);
+				fileName = args[0];
+				inStream = new FileInputStream(fileName);
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Source file not found " + args[0]);
+			System.out.println("Source file not found " + fileName);
 			System.exit(-1);
 		}
 
 
 		// Read tokens from source file.
-		TokenReader tokenReader = new TokenReader(inStream);
+		TokenReader tokenReader = new TokenReader(fileName, inStream);
 		TokenDescriptor tokenDesc;
 		try {
 			while (!tokenReader.atEnd()) {

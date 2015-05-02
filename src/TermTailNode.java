@@ -39,7 +39,9 @@ public class TermTailNode {
 		m_termTail = null;
 	}
 
-	public double getVal(double assoc, HashMap<String, Double> symTab) {
+	public double getVal(double assoc, ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Get the value of the child term.
 		double termVal = assoc;
 
@@ -47,8 +49,8 @@ public class TermTailNode {
 			assert(m_termTail != null);
 
 			// Calculate the value of this term tail.
-			double tailVal = m_term.getVal(symTab);
-			tailVal = m_termTail.getVal(tailVal, symTab);
+			double tailVal = m_term.getVal(progState);
+			tailVal = m_termTail.getVal(tailVal, progState);
 
 			// Translate the term value by the term tail value.
 			if (m_oper == Operator.ADD) {

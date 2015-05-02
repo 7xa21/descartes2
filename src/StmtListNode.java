@@ -19,12 +19,14 @@ public class StmtListNode {
 		m_stmtTail = stmtTail;
 	}
 
-	public void execute(HashMap<String, Double> symTab) {
+	public void execute(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Execute child stmt.
-		m_stmt.execute(symTab);
+		m_stmt.execute(progState);
 
 		// Execute child stmt-tail.
-		m_stmtTail.execute(symTab);
+		m_stmtTail.execute(progState);
 	}
 
 

@@ -10,7 +10,9 @@ public class StmtNode {
 	public StmtNode() {
 	}
 
-	public void execute(HashMap<String, Double> symTab) {
+	public void execute(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// This is only used for blank statements (GR 10).
 		//
 		// It doesn't do anything.
@@ -45,33 +47,52 @@ public class StmtNode {
 
 
 		//
-		// GR 7:
+		// GR 5.
+		//
+		//		stmt : loop-stmt
+		//
+		if (LoopStmtNode.detectLoopStmt(tokenReader)) {
+			node = LoopStmtNode.parseLoopStmt(tokenReader);
+		}
+
+		//
+		// GR 6.
+		//
+		//		stmt : break-stmt
+		//
+		else if (BreakStmtNode.detectBreakStmt(tokenReader)) {
+			node = BreakStmtNode.parseBreakStmt(tokenReader);
+		}
+
+		//
+		// GR 7.
 		//
 		//		stmt : assign-stmt
 		//
-		if (AssignStmtNode.detectAssignStmt(tokenReader)) {
+		else if (AssignStmtNode.detectAssignStmt(tokenReader)) {
 			node = AssignStmtNode.parseAssignStmt(tokenReader);
 		}
 		
 		//
-		// GR 8:
+		// GR 8.
 		//
 		// 		stmt : read-stmt
 		//
-		else if(ReadStmtNode.detectReadStmt(tokenReader)){
+		else if (ReadStmtNode.detectReadStmt(tokenReader)) {
 			node = ReadStmtNode.parseReadStmt(tokenReader);
 		}
 		
 		//
-		// GR 9:
+		// GR 9.
 		//
 		// 		stmt : print-stmt
 		//
-		else if(PrintStmtNode.detectPrintStmt(tokenReader)){
+		else if (PrintStmtNode.detectPrintStmt(tokenReader)) {
 			node = PrintStmtNode.parsePrintStmt(tokenReader);
 		}
+
 		//
-		// GR 10:
+		// GR 10.
 		//
 		//		stmt :
 		//

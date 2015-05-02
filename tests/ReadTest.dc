@@ -4,4 +4,6 @@ C := 5;
 D := A + B + C;
 PRINT D;
 PRINT C;
+PRINT B;
+PRINT A;
 .

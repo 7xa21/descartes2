@@ -12,8 +12,7 @@ public class PrintStmtNode extends StmtNode{
 	
 	private String m_id;
 	private idListTailNode m_idListTail;
-	
-	
+
 	
 	//========//
 	//Methods//
@@ -24,19 +23,22 @@ public class PrintStmtNode extends StmtNode{
 		m_idListTail = idListTail;
 	}
 	
-	public void execute(HashMap<String, Double> symTab){
-		System.out.println(symTab.get(m_id));
-		
-		m_idListTail.print(symTab);
+	public void execute(ProgState progState){
+		System.out.println(progState.symTab().get(m_id));
+		m_idListTail.print(progState);
 	}
-	
-	
+
+
+	//================//
+	// Static Methods //
+	//================//
+
 	public static boolean detectPrintStmt(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
 		// Keep a stack of tokens read. If we DON'T find a
-		// PRINT, we unread() all the tokens back
-		// to the TokenReader.
+		// PRINT, we unread() all the tokens back to the
+		// TokenReader.
 		Stack<TokenDescriptor> toReplace = new Stack<TokenDescriptor>();
 		boolean detected = false;
 		TokenDescriptor token;
@@ -49,19 +51,7 @@ public class PrintStmtNode extends StmtNode{
 
 		// Look for a PRINT token.
 		if (token.getCode() == TokenCode.T_PRINT) {
-
-			// Eat up spaces after PRINT.
-			do {
-				token = tokenReader.getToken();
-				toReplace.push(token);
-			} while (token.getCode() == TokenCode.T_SPACE);
-
-			// "token" is now the first token after the space(s).
-
-			// Look for ID token.
-			if (token.getCode() == TokenCode.T_ID) {
-				detected = true;
-			}
+			detected = true;
 		}
 
 		// unread() all the tokens we just read.
@@ -71,7 +61,7 @@ public class PrintStmtNode extends StmtNode{
 
 		return detected;
 	}
-	
+
 	public static PrintStmtNode parsePrintStmt(TokenReader tokenReader)
 			throws IOException, DCSyntaxErrorException
 	{
@@ -81,8 +71,10 @@ public class PrintStmtNode extends StmtNode{
 		//		print-stmt : PRINT ID id-list-tail
 		//
 		//
+
 		TokenDescriptor token;
 		String id;
+
 		// Eat up spaces.
 		do {
 			token = tokenReader.getToken();
@@ -97,13 +89,18 @@ public class PrintStmtNode extends StmtNode{
 
 		// "token" should now be the first non-space token after
 		// PRINT, which should be ID.
-		assert(token.getCode() == TokenCode.T_ID);
+		if (token.getCode() != TokenCode.T_ID) {
+			throw new DCSyntaxErrorException(tokenReader,
+					"Expected identifier after 'PRINT'.");
+		}
 		id = token.getText();
 
 		// Read the id-list-tail.
-		idListTailNode idListTail = idListTailNode.parseidListTail(tokenReader);
+		idListTailNode idListTail =
+				idListTailNode.parseidListTail(tokenReader);
 
 
 		return new PrintStmtNode(id, idListTail);
 	}
+
 }

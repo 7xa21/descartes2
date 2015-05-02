@@ -20,13 +20,15 @@ public class ExprNode {
 		m_boolTermTail = boolTermTail;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Get the value of the child bool-term.
-		double termVal = m_boolTerm.getVal(symTab);
+		double termVal = m_boolTerm.getVal(progState);
 
 		// The value of the expression may be modified by the bool
 		// term tail.
-		termVal = m_boolTermTail.getVal(termVal, symTab);
+		termVal = m_boolTermTail.getVal(termVal, progState);
 
 
 		return termVal;

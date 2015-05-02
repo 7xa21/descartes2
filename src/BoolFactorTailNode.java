@@ -27,15 +27,17 @@ public class BoolFactorTailNode {
 		m_boolFactorTail = null;
 	}
 
-	public double getVal(double assoc, HashMap<String, Double> symTab) {
+	public double getVal(double assoc, ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Get the value of the child bool-factor.
 		double factorVal = assoc;
 
 		if (m_boolFactor != null) {
 			assert(m_boolFactorTail != null);
 
-			double tailVal = m_boolFactor.getVal(symTab);
-			tailVal = m_boolFactorTail.getVal(tailVal, symTab);
+			double tailVal = m_boolFactor.getVal(progState);
+			tailVal = m_boolFactorTail.getVal(tailVal, progState);
 
 			if (factorVal != 0.0 && tailVal != 0.0) {
 				factorVal = 1.0;

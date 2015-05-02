@@ -23,13 +23,15 @@ public class BoolTermNode {
 		m_boolFactorTail = boolFactorTail;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Get the value of the child bool-factor.
-		double factorVal = m_boolFactor.getVal(symTab);
+		double factorVal = m_boolFactor.getVal(progState);
 
 		// The value of this bool term may be modified by the bool
 		// factor tail.
-		factorVal = m_boolFactorTail.getVal(factorVal, symTab);
+		factorVal = m_boolFactorTail.getVal(factorVal, progState);
 
 
 		return factorVal;

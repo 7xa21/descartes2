@@ -10,6 +10,7 @@ public class LoopStmtNode extends StmtNode {
 	private String m_id;
 	private StmtListNode m_stmtList;
 
+
 	//=========//
 	// Methods //
 	//=========//
@@ -17,6 +18,20 @@ public class LoopStmtNode extends StmtNode {
 	public LoopStmtNode(String id, StmtListNode stmtList) {
 		m_id = id;
 		m_stmtList = stmtList;
+	}
+
+	public void execute(ProgState progState)
+			throws DCRuntimeErrorException
+	{
+		// Push this loop's ID to the stack.
+		progState.loopIDStack().push(m_id);
+
+		// Repeatedly execute the loop's statement list until this
+		// loop's ID is no longer at the top of the stack.
+		do {
+			m_stmtList.execute(progState);
+		} while (!progState.loopIDStack().isEmpty() &&
+				  progState.loopIDStack().peek().equals(m_id));
 	}
 
 	//================//
@@ -75,10 +90,13 @@ public class LoopStmtNode extends StmtNode {
 		// Eat up spaces between "LOOP" and the loop's ID.
 		do {
 			token = tokenReader.getToken();
-		} while (token.getCode() == TokenCode.T_LOOP);
+		} while (token.getCode() == TokenCode.T_SPACE);
 
 		// "token" should now be the loop ID string.
-		assert(token.getCode() == TokenCode.T_ID);
+		if (token.getCode() != TokenCode.T_ID) {
+			throw new DCSyntaxErrorException(tokenReader,
+					"Expected loop identifier.");
+		}
 		id = token.getText();
 
 		// Eat up spaces between the ID string and the colon.
@@ -87,7 +105,10 @@ public class LoopStmtNode extends StmtNode {
 		} while (token.getCode() == TokenCode.T_SPACE);
 
 		// Look for the colon after the ID.
-		assert(token.getCode() == TokenCode.T_COLON);
+		if (token.getCode() != TokenCode.T_COLON) {
+			throw new DCSyntaxErrorException(tokenReader,
+					"Expected ':' after loop identifier.");
+		}
 
 		// Read the statement list.
 		stmtList = StmtListNode.parseStmtList(tokenReader);
@@ -98,7 +119,10 @@ public class LoopStmtNode extends StmtNode {
 		} while (token.getCode() == TokenCode.T_SPACE);
 
 		// Look for REPEAT keyword.
-		assert(token.getCode() == TokenCode.T_REPEAT);
+		if (token.getCode() != TokenCode.T_REPEAT) {
+			throw new DCSyntaxErrorException(tokenReader,
+					"Expected 'REPEAT' after loop statement list.");
+		}
 
 
 		return new LoopStmtNode(id, stmtList);

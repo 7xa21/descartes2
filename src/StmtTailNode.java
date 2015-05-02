@@ -26,8 +26,8 @@ public class StmtTailNode {
 		m_stmtTail = stmtTail;
 	}
 
-	public void execute(HashMap<String, Double> symTab)
-			// throws DCRuntimeErrorException
+	public void execute(ProgState progState)
+			throws DCRuntimeErrorException
 	{
 		if (m_stmt != null) {
 			/*
@@ -37,10 +37,10 @@ public class StmtTailNode {
 			*/
 
 			// Execute child stmt.
-			m_stmt.execute(symTab);
+			m_stmt.execute(progState);
 
 			// Execute child stmt-tail.
-			m_stmtTail.execute(symTab);
+			m_stmtTail.execute(progState);
 		}
 	}
 

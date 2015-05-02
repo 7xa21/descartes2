@@ -34,21 +34,23 @@ public class FactorNode {
 		m_parenExpr = parenExpr;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		double value;
 
 		if (m_atom != null) {
 			assert (m_negFactor == null);
 			assert (m_parenExpr == null);
-			value = m_atom.getVal(symTab);
+			value = m_atom.getVal(progState);
 		}
 		else if (m_negFactor != null) {
 			assert (m_parenExpr == null);
-			value = -m_negFactor.getVal(symTab);
+			value = -m_negFactor.getVal(progState);
 		}
 		else {
 			assert (m_parenExpr != null);
-			value = m_parenExpr.getVal(symTab);
+			value = m_parenExpr.getVal(progState);
 		}
 
 		return value;
@@ -104,7 +106,10 @@ public class FactorNode {
 			} while (token.getCode() == TokenCode.T_SPACE);
 
 			// The next token MUST be a closing parenthesis.
-			assert(token.getCode() == TokenCode.T_CLOSE_PAREN);
+			if (token.getCode() != TokenCode.T_CLOSE_PAREN) {
+				throw new DCSyntaxErrorException(
+						tokenReader, "Expected ')'.");
+			}
 
 			factor = new FactorNode(expr);
 		}

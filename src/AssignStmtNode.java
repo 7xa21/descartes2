@@ -21,9 +21,11 @@ public class AssignStmtNode extends StmtNode {
 		m_expr = expr;
 	}
 
-	public void execute(HashMap<String, Double> symTab) {
+	public void execute(ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Assign the expression's value to the ID.
-		symTab.put(m_id, m_expr.getVal(symTab));
+		progState.symTab().put(m_id, m_expr.getVal(progState));
 	}
 
 
@@ -50,8 +52,6 @@ public class AssignStmtNode extends StmtNode {
 
 		// Look for an ID token.
 		if (token.getCode() == TokenCode.T_ID) {
-//			toReplace.push(token);
-
 			// Eat up spaces after ID.
 			do {
 				token = tokenReader.getToken();
@@ -91,10 +91,11 @@ public class AssignStmtNode extends StmtNode {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);
 
+		// Get the variable name in the assignment.
 		assert(token.getCode() == TokenCode.T_ID);
 		String id = token.getText();
 
-		// Eat up spaces after ID.
+		// Eat up spaces between the variable name and the ":=".
 		do {
 			token = tokenReader.getToken();
 		} while (token.getCode() == TokenCode.T_SPACE);

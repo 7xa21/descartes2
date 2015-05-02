@@ -27,15 +27,17 @@ public class BoolTermTailNode {
 		m_boolTermTail = null;
 	}
 
-	public double getVal(double assoc, HashMap<String, Double> symTab) {
+	public double getVal(double assoc, ProgState progState)
+			throws DCRuntimeErrorException
+	{
 		// Get the value of the child bool-term.
 		double termVal = assoc;
 
 		if (m_boolTerm != null) {
 			assert(m_boolTermTail != null);
 
-			double tailVal = m_boolTerm.getVal(symTab);
-			tailVal = m_boolTermTail.getVal(tailVal, symTab);
+			double tailVal = m_boolTerm.getVal(progState);
+			tailVal = m_boolTermTail.getVal(tailVal, progState);
 
 			if (termVal != 0.0 || tailVal != 0.0) {
 				termVal = 1.0;

@@ -23,11 +23,11 @@ public class AtomNode {
 		m_constVal = constVal;
 	}
 
-	public double getVal(HashMap<String, Double> symTab) {
+	public double getVal(ProgState progState) {
 		if (m_id == null)
 			return m_constVal;
 		else
-			return symTab.get(m_id);
+			return progState.symTab().get(m_id);
 	}
 
 
