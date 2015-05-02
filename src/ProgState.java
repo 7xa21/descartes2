@@ -3,29 +3,29 @@ import java.util.Stack;
 
 public class ProgState {
 
-	//==================//
-	// Member Variables //
-	//==================//
+    //==================//
+    // Member Variables //
+    //==================//
 
-	private Stack<String> m_loopIDStack;
-	private HashMap<String, Double> m_symTab;
+    private Stack<String> m_loopIDStack;
+    private HashMap<String, Double> m_symTab;
 
 
-	//=========//
-	// Methods //
-	//=========//
+    //=========//
+    // Methods //
+    //=========//
 
-	public ProgState() {
-		m_loopIDStack = new Stack<String>();
-		m_symTab = new HashMap<String, Double>();
-	}
+    public ProgState() {
+        m_loopIDStack = new Stack<String>();
+        m_symTab = new HashMap<String, Double>();
+    }
 
-	public Stack<String> loopIDStack() {
-		return m_loopIDStack;
-	}
+    public Stack<String> loopIDStack() {
+        return m_loopIDStack;
+    }
 
-	public HashMap<String, Double> symTab() {
-		return m_symTab;
-	}
+    public HashMap<String, Double> symTab() {
+        return m_symTab;
+    }
 
 }

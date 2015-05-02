@@ -3,56 +3,56 @@ import java.util.HashMap;
 
 public class TermNode {
 
-	//==================//
-	// Member Variables //
-	//==================//
+    //==================//
+    // Member Variables //
+    //==================//
 
-	private FactorNode m_factor;
-	private FactorTailNode m_factorTail;
-
-
-	//=========//
-	// Methods //
-	//=========//
-
-	public TermNode(FactorNode factor, FactorTailNode factorTail) {
-		m_factor = factor;
-		m_factorTail = factorTail;
-	}
-
-	public double getVal(ProgState progState)
-			throws DCRuntimeErrorException
-	{
-		// Get the value of the child factor.
-		double factorVal = m_factor.getVal(progState);
-
-		// The value may be modified by the factor tail.
-		factorVal = m_factorTail.getVal(factorVal, progState);
+    private FactorNode m_factor;
+    private FactorTailNode m_factorTail;
 
 
-		return factorVal;
-	}
+    //=========//
+    // Methods //
+    //=========//
+
+    public TermNode(FactorNode factor, FactorTailNode factorTail) {
+        m_factor = factor;
+        m_factorTail = factorTail;
+    }
+
+    public double getVal(ProgState progState)
+            throws DCRuntimeErrorException
+    {
+        // Get the value of the child factor.
+        double factorVal = m_factor.getVal(progState);
+
+        // The value may be modified by the factor tail.
+        factorVal = m_factorTail.getVal(factorVal, progState);
 
 
-	//================//
-	// Static Methods //
-	//================//
-
-	public static TermNode parseTerm(TokenReader tokenReader)
-			throws IOException, DCSyntaxErrorException
-	{
-		//
-		// GR 41:
-		//
-		//		term : factor factor-tail
-		//
-
-		// Read the factor and the factor-tail.
-		FactorNode factor = FactorNode.parseFactor(tokenReader);
-		FactorTailNode factorTail =
-				FactorTailNode.parseFactorTail(tokenReader);
+        return factorVal;
+    }
 
 
-		return new TermNode(factor, factorTail);
-	}
+    //================//
+    // Static Methods //
+    //================//
+
+    public static TermNode parseTerm(TokenReader tokenReader)
+            throws IOException, DCSyntaxErrorException
+    {
+        //
+        // GR 41:
+        //
+        //		term : factor factor-tail
+        //
+
+        // Read the factor and the factor-tail.
+        FactorNode factor = FactorNode.parseFactor(tokenReader);
+        FactorTailNode factorTail =
+                FactorTailNode.parseFactorTail(tokenReader);
+
+
+        return new TermNode(factor, factorTail);
+    }
 }

@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -11,14 +10,14 @@ public class ReadStmtNode extends StmtNode {
 	//==================//
 	
 	private String m_id;
-	private idListTailNode m_idListTail;
+	private IDListTailNode m_idListTail;
 	
 	
 	//=========//
 	// Methods //
 	//=========//
 	
-	public ReadStmtNode (String id, idListTailNode idListTail) {
+	public ReadStmtNode (String id, IDListTailNode idListTail) {
 		m_id = id;
 		m_idListTail = idListTail;
 	}
@@ -102,8 +101,8 @@ public class ReadStmtNode extends StmtNode {
 		id = token.getText();
 
 		// Read the id-list-tail.
-		idListTailNode idListTail =
-				idListTailNode.parseidListTail(tokenReader);
+		IDListTailNode idListTail =
+				IDListTailNode.parseIDListTail(tokenReader);
 
 
 		return new ReadStmtNode(id, idListTail);

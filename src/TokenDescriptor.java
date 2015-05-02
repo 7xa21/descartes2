@@ -7,24 +7,24 @@
 //
 public class TokenDescriptor {
 
-	private String m_text;
-	private TokenCode m_code;
+    private String m_text;
+    private TokenCode m_code;
 
-	public TokenDescriptor(String text, TokenCode code) {
-		m_text = text;
-		m_code = code;
-	}
+    public TokenDescriptor(String text, TokenCode code) {
+        m_text = text;
+        m_code = code;
+    }
 
-	// Prints the token/code pair on the console.
-	public void print() {
-		System.out.println(m_text + "\t(ID: " + m_code + ")");
-	}
+    // Prints the token/code pair on the console.
+    public void print() {
+        System.out.println(m_text + "\t(ID: " + m_code + ")");
+    }
 
-	public String getText() {
-		return m_text;
-	}
+    public String getText() {
+        return m_text;
+    }
 
-	public TokenCode getCode() {
-		return m_code;
-	}
+    public TokenCode getCode() {
+        return m_code;
+    }
 }
