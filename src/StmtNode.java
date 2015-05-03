@@ -59,7 +59,24 @@ public class StmtNode {
 		else if (AssignStmtNode.detectAssignStmt(tokenReader)) {
 			node = AssignStmtNode.parseAssignStmt(tokenReader);
 		}
-
+		
+		//
+		// GR 8:
+		//
+		// 		stmt : read-stmt
+		//
+		else if(ReadStmtNode.detectReadStmt(tokenReader)){
+			node = ReadStmtNode.parseReadStmt(tokenReader);
+		}
+		
+		//
+		// GR 9:
+		//
+		// 		stmt : print-stmt
+		//
+		else if(PrintStmtNode.detectPrintStmt(tokenReader)){
+			node = PrintStmtNode.parsePrintStmt(tokenReader);
+		}
 		//
 		// GR 10:
 		//
