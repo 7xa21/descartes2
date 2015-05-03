@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Stack;
 
 public class AssignStmtNode extends StmtNode {
@@ -33,7 +32,6 @@ public class AssignStmtNode extends StmtNode {
     // Static Methods //
     //================//
 
-    // (RS) ...debating whether this method is necessary...
     public static boolean detectAssignStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {

@@ -9,6 +9,7 @@ public class ProgState {
 
     private Stack<String> m_loopIDStack;
     private HashMap<String, Double> m_symTab;
+    private String m_breakName;
 
 
     //=========//
@@ -18,6 +19,7 @@ public class ProgState {
     public ProgState() {
         m_loopIDStack = new Stack<String>();
         m_symTab = new HashMap<String, Double>();
+        m_breakName = null;
     }
 
     public Stack<String> loopIDStack() {
@@ -28,4 +30,11 @@ public class ProgState {
         return m_symTab;
     }
 
+    public String breakName() {
+        return m_breakName;
+    }
+
+    public void setBreakName(String bName) {
+        m_breakName = bName;
+    }
 }

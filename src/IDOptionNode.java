@@ -18,22 +18,32 @@ public class IDOptionNode {
     }
 
     public void popLoopID(ProgState progState) {
+        String id;
+
+
         // If the ID is null, only pop the most recent loop id off
         // the stack.
         if (m_id == null) {
             assert(!progState.loopIDStack().isEmpty());
-            progState.loopIDStack().pop();
+            id = progState.loopIDStack().pop();
         }
 
         // If the ID isn't null, keep popping until we pop the ID
         // off the stack.
         else {
-            String id;
             do {
                 assert(!progState.loopIDStack().isEmpty());
                 id = progState.loopIDStack().pop();
             } while (!id.equals(m_id));
         }
+
+        // Set the break name to ensure stmt-tails don't continue
+        // to execute. This causes any execute() methods to return
+        // back up to the loop with the break name; it will clear
+        // the break name and return to its parent stmt-tail,
+        // which will proceed to execute statements following the
+        // loop.
+        progState.setBreakName(id);
     }
 
 

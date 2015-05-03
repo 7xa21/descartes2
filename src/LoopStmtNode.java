@@ -32,6 +32,10 @@ public class LoopStmtNode extends StmtNode {
             m_stmtList.execute(progState);
         } while (!progState.loopIDStack().isEmpty() &&
                   progState.loopIDStack().peek().equals(m_id));
+
+        // Only clear the break name if we're breaking this loop
+        if (progState.breakName().equals(m_id))
+            progState.setBreakName(null);
     }
 
     //================//

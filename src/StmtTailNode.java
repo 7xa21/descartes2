@@ -64,11 +64,13 @@ public class StmtTailNode {
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
     {
-        if (m_stmt != null) {
+        if (m_stmt != null && progState.breakName() == null) {
             // Execute child stmt.
             m_stmt.execute(progState);
 
-            // Execute child stmt-tail.
+            // Execute child stmt-tail unless the preceding
+            // statement was a "BREAK", in which case the break
+            // flag will be set.
             m_stmtTail.execute(progState);
         }
     }
