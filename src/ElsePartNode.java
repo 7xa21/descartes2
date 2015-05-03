@@ -24,9 +24,11 @@ public class ElsePartNode {
         m_stmtList = stmtList;
     }
 
-    public void execute(HashMap<String, Double> symTab) {
+    public void execute(ProgState progState)
+            throws DCRuntimeErrorException
+    {
         if(m_stmtList != null){
-            m_stmtList.execute(symTab);
+            m_stmtList.execute(progState);
         }
     }
 
@@ -40,26 +42,29 @@ public class ElsePartNode {
         ElsePartNode elsePart;
         TokenDescriptor token;
         StmtListNode stmtList;
+        Stack<TokenDescriptor> toReplace = new Stack<TokenDescriptor>();
 
         // Eat up spaces.
         do {
             token = tokenReader.getToken();
+            toReplace.push(token);
         } while (token.getCode() == TokenCode.T_SPACE);
 
-        if(token.getCode()== TokenCode.T_ELSE) {
+        if (token.getCode() == TokenCode.T_ELSE) {
             stmtList = StmtListNode.parseStmtList(tokenReader);
-
-            // Eat up spaces.
-            do {
-                token = tokenReader.getToken();
-            } while (token.getCode() == TokenCode.T_SPACE);
-
             elsePart = new ElsePartNode(stmtList);
         }
-        else{
+        else {
+            // If the token wasn't an ELSE keyword, put it back.
+            while (!toReplace.isEmpty()) {
+                tokenReader.unread(toReplace.pop());
+            }
             elsePart = new ElsePartNode();
         }
         // Eat up spaces.
+        do {
+            token = tokenReader.getToken();
+        } while (token.getCode() == TokenCode.T_SPACE);
 
         assert(token.getCode() == TokenCode.T_FI);
         return elsePart;

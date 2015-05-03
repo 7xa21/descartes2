@@ -25,12 +25,14 @@ public class IfStmtNode extends StmtNode {
         m_else = els;
     }
 
-    public void execute(HashMap<String, Double> symTab) {
-        if(m_expr.getVal(symTab)!=0){
-            m_stmtList.execute(symTab);
+    public void execute(ProgState progState)
+            throws DCRuntimeErrorException
+    {
+        if(m_expr.getVal(progState)!=0){
+            m_stmtList.execute(progState);
         }
         else{
-            m_else.execute(symTab);
+            m_else.execute(progState);
         }
     }
 
@@ -67,7 +69,7 @@ public class IfStmtNode extends StmtNode {
         return detected;
     }
 
-    public static IfStmtNode parseIf(TokenReader tokenReader)
+    public static IfStmtNode parseIfStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
 
     {

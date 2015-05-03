@@ -7,8 +7,8 @@ CATS := 9.0;
 IF NUM2<NUM5 THEN
     NUM2 := NUM7;
 ELSE
-NUM 2 := NUM5;
-FI
+    NUM2 := NUM5;
+FI;
 
 IF CATS<DOGS THEN
     DOGS := DOGS + CATS;
