@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class BoolTermNode {
 
@@ -48,7 +48,7 @@ public class BoolTermNode {
         //
         // GR 26:
         //
-        //		bool-term : bool-factor bool-factor-tail
+        //      bool-term : bool-factor bool-factor-tail
         //
 
         // Read the bool-factor and the bool-factor tail.

@@ -116,7 +116,7 @@ public class StmtTailNode {
         //
         // GR 2:
         //
-        // 		stmt-tail : SEMICOLON stmt stmt-tail
+        //      stmt-tail : SEMICOLON stmt stmt-tail
         //
 
         // Look for semicolon.
@@ -132,7 +132,7 @@ public class StmtTailNode {
         //
         // GR 3:
         //
-        // 		stmt-tail :
+        //      stmt-tail :
         //
 
         // If no semicolon, the statement tail is blank.

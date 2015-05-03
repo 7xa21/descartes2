@@ -1,9 +1,6 @@
-/**
- * Created by Luke on 4/30/2015.
- */
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Stack;
+
 
 public class IfStmtNode extends StmtNode {
 
@@ -15,11 +12,15 @@ public class IfStmtNode extends StmtNode {
     private StmtListNode m_stmtList;
     private ElsePartNode m_else;
 
+
     //=========//
     // Methods //
     //=========//
 
-    public IfStmtNode(ExprNode exp, StmtListNode stmtList, ElsePartNode els){
+    public IfStmtNode(ExprNode exp,
+                      StmtListNode stmtList,
+                      ElsePartNode els)
+    {
         m_expr = exp;
         m_stmtList = stmtList;
         m_else = els;
@@ -28,13 +29,13 @@ public class IfStmtNode extends StmtNode {
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
     {
-        if(m_expr.getVal(progState)!=0){
+        if (m_expr.getVal(progState) != 0.0) {
             m_stmtList.execute(progState);
-        }
-        else{
+        } else {
             m_else.execute(progState);
         }
     }
+
 
     //================//
     // Static Methods //
@@ -50,13 +51,14 @@ public class IfStmtNode extends StmtNode {
         boolean detected = false;
         TokenDescriptor token;
 
+
         // Eat up spaces.
         do {
             token = tokenReader.getToken();
             toReplace.push(token);
         } while (token.getCode() == TokenCode.T_SPACE);
 
-        // Look for an ID token.
+        // Look for an "IF" keyword.
         if (token.getCode() == TokenCode.T_IF) {
             detected = true;
         }
@@ -66,6 +68,7 @@ public class IfStmtNode extends StmtNode {
             tokenReader.unread(toReplace.pop());
         }
 
+
         return detected;
     }
 
@@ -73,36 +76,41 @@ public class IfStmtNode extends StmtNode {
             throws IOException, DCSyntaxErrorException
 
     {
+        TokenDescriptor token;
+
+
+        // Eat leading spaces.
+        do {
+            token = tokenReader.getToken();
+        } while (token.getCode() == TokenCode.T_SPACE);
+
         //
         // GR 11:
         //
-        //		if-stmt : IF expr Then stmt-list else-part
+        //      if-stmt : IF expr Then stmt-list else-part
         //
-        ExprNode exp;
-        StmtListNode stmtList;
-        ElsePartNode elsePart;
-        TokenDescriptor token;
 
-        // Eat up spaces.
-        do {
-            token = tokenReader.getToken();
-        } while (token.getCode() == TokenCode.T_SPACE);
-
-        //Ensures 'IF' terminal is the current tokens code
+        // Ensures "IF" terminal is the current token.
         assert(token.getCode() == TokenCode.T_IF);
-        //sets exp to the next expr node after IF
-        exp = ExprNode.parseExpr(tokenReader);
 
-        // Eat up spaces after the expr.
+        // Sets exp to the next expr node after "IF".
+        ExprNode exp = ExprNode.parseExpr(tokenReader);
+
+        // Eat up spaces after the expr and before "THEN".
         do {
             token = tokenReader.getToken();
         } while (token.getCode() == TokenCode.T_SPACE);
 
+        // Ensure a "THEN" keyword follows the conditional
+        // expression.
         assert(token.getCode() == TokenCode.T_THEN);
-        // sets the stmtList to the next stmtList after THEN
-        stmtList = StmtListNode.parseStmtList(tokenReader);
-        // sets the elsePart to the next elsePart after te stmtList
-        elsePart = ElsePartNode.parseElse(tokenReader);
+
+        // Sets the stmtList to the next stmtList after "THEN".
+        StmtListNode stmtList = StmtListNode.parseStmtList(tokenReader);
+
+        // Sets the elsePart to the next elsePart after the
+        // stmt-list.
+        ElsePartNode elsePart = ElsePartNode.parseElse(tokenReader);
 
 
         return new IfStmtNode(exp, stmtList, elsePart);

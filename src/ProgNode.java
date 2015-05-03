@@ -35,7 +35,7 @@ public class ProgNode {
         //
         // GR 0:
         //
-        //		prog : stmt-list PERIOD
+        //      prog : stmt-list PERIOD
         //
 
         // Read the stmt-list.

@@ -69,7 +69,7 @@ public class IDListTailNode {
         //
         // GR 21:
         //
-        //		id-list-tail : , ID id-list-tail
+        //      id-list-tail : , ID id-list-tail
         //
 
         if (token.getCode() == TokenCode.T_COMMA) {
@@ -97,7 +97,7 @@ public class IDListTailNode {
         //
         // GR 22:
         //
-        //		id-list-tail :
+        //      id-list-tail :
         //
 
         else {

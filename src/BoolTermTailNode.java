@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class BoolTermTailNode {
 
@@ -63,7 +63,7 @@ public class BoolTermTailNode {
         //
         // GR 24:
         //
-        //		bool-term-tail : OR bool-term bool-term-tail
+        //      bool-term-tail : OR bool-term bool-term-tail
         //
 
         // Look for "OR" keyword.
@@ -80,7 +80,7 @@ public class BoolTermTailNode {
         //
         // GR 25:
         //
-        //		bool-term-tail :
+        //      bool-term-tail :
         //
 
         // If the token was not "OR" then this bool-term-tail is

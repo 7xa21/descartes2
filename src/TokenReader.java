@@ -601,9 +601,10 @@ public class TokenReader {
         return pChars.contains(Character.toString((char)ch));
     }
 
-    //================//
-    // Program entry. //
-    //================//
+
+    //===============//
+    // Program Entry //
+    //===============//
 
     //
     // Usage:

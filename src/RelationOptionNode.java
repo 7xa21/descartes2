@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class RelationOptionNode {
 
@@ -84,12 +84,12 @@ public class RelationOptionNode {
         //
         // GR 30 / 31 / 32 / 33 / 34 / 35:
         //
-        //		relation-option : < arith-expr
-        //		relation-option : <= arith-expr
-        //		relation-option : = arith-expr
-        //		relation-option : >= arith-expr
-        //		relation-option : > arith-expr
-        //		relation-option : <> arith-expr
+        //      relation-option : < arith-expr
+        //      relation-option : <= arith-expr
+        //      relation-option : = arith-expr
+        //      relation-option : >= arith-expr
+        //      relation-option : > arith-expr
+        //      relation-option : <> arith-expr
         //
         Operator oper = null;
         switch (token.getCode()) {
@@ -110,11 +110,11 @@ public class RelationOptionNode {
         //
         // GR 36:
         //
-        //		relation-option :
+        //      relation-option :
         //
         else {
-            relationOption = new RelationOptionNode(null, null);
             tokenReader.unread(token);
+            relationOption = new RelationOptionNode(null, null);
         }
 
 

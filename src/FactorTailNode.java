@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class FactorTailNode {
 
@@ -82,8 +82,8 @@ public class FactorTailNode {
         //
         // GR 42/43:
         //
-        //		factor-tail : * term term-tail
-        //		factor-tail : / term term-tail
+        //      factor-tail : * term term-tail
+        //      factor-tail : / term term-tail
         //
 
         // Look for a '*' or a '/'.
@@ -107,7 +107,7 @@ public class FactorTailNode {
         //
         // GR 44:
         //
-        //		factor-tail :
+        //      factor-tail :
         //
 
         else {

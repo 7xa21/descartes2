@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class BoolFactorTailNode {
 
@@ -64,7 +64,7 @@ public class BoolFactorTailNode {
         //
         // GR 27:
         //
-        //		bool-factor-tail : AND bool-factor bool-factor-tail
+        //      bool-factor-tail : AND bool-factor bool-factor-tail
         //
 
         // Look for "AND" keyword.
@@ -82,7 +82,7 @@ public class BoolFactorTailNode {
         //
         // GR 28:
         //
-        //		bool-factor-tail :
+        //      bool-factor-tail :
         //
 
         // If the token was not "AND" then this bool-factor-tail

@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class BoolFactorNode {
 
@@ -46,7 +46,7 @@ public class BoolFactorNode {
         //
         // GR 29:
         //
-        //		bool-factor : arith-expr relation-option
+        //      bool-factor : arith-expr relation-option
         //
 
         // Read the arith-expr and relation-option

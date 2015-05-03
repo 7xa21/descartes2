@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class FactorNode {
 
@@ -77,7 +77,7 @@ public class FactorNode {
         //
         // GR 45:
         //
-        //		factor : - factor
+        //      factor : - factor
         //
 
         // Look for a '-' unary operator.
@@ -91,7 +91,7 @@ public class FactorNode {
         //
         // GR 47:
         //
-        //		factor : ( expr )
+        //      factor : ( expr )
         //
 
         // Look for a '(' character.
@@ -117,7 +117,7 @@ public class FactorNode {
         //
         // GR 46:
         //
-        //		factor : atom
+        //      factor : atom
         //
 
         // The factor HAS to be an atom.

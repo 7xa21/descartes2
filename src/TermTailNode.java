@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class TermTailNode {
 
@@ -76,8 +76,8 @@ public class TermTailNode {
         //
         // GR 38/39:
         //
-        //		term-tail : + term term-tail
-        //		term-tail : - term term-tail
+        //      term-tail : + term term-tail
+        //      term-tail : - term term-tail
         //
 
         // Look for a '+' or a '-' operator.
@@ -103,7 +103,7 @@ public class TermTailNode {
         //
         // GR 40:
         //
-        //		term-tail :
+        //      term-tail :
         //
 
         // If there was no '+' or '-' operator found, then this

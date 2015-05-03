@@ -67,7 +67,7 @@ public class PrintStmtNode extends StmtNode{
         //
         // GR 19:
         //
-        //		print-stmt : PRINT ID id-list-tail
+        //      print-stmt : PRINT ID id-list-tail
         //
         //
 

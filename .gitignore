@@ -3,3 +3,5 @@ out/
 src/.classpath
 src/.project
 src/*.class
+.classpath
+.project

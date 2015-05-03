@@ -81,7 +81,7 @@ public class ArithExprNode {
         //
         // GR 37:
         //
-        //		arith-expr : term term-tail
+        //      arith-expr : term term-tail
         //
 
         // Read the term and the term-tail.

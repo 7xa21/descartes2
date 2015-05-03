@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+
 public class IDOptionNode {
 
     //==================//
@@ -64,7 +65,7 @@ public class IDOptionNode {
         //
         // GR 16.
         //
-        //		id-option : ID
+        //      id-option : ID
         //
 
         if (token.getCode() == TokenCode.T_ID) {
@@ -74,7 +75,7 @@ public class IDOptionNode {
         //
         // GR 17.
         //
-        //		id-option :
+        //      id-option :
         //
 
         else {

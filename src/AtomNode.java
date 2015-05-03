@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class AtomNode {
 
@@ -47,11 +47,30 @@ public class AtomNode {
 
         AtomNode atom;
 
+        //
+        // GR 48.
+        //
+        //      atom : ID
+        //
+
         if (token.getCode() == TokenCode.T_ID) {
             atom = new AtomNode(token.getText());
-        } else if (token.getCode() == TokenCode.T_CONST) {
+        }
+
+        //
+        // GR 49.
+        //
+        //      atom : CONST
+        //
+
+        else if (token.getCode() == TokenCode.T_CONST) {
             atom = new AtomNode(Double.parseDouble(token.getText()));
-        } else {
+        }
+
+        // If we expected an atom but got neither a CONST nor an
+        // ID token, there is a syntax error in the source code
+        // we're reading.
+        else {
             throw new DCSyntaxErrorException("Expected atom");
         }
 

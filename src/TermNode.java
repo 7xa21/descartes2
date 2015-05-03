@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
+
 
 public class TermNode {
 
@@ -44,7 +44,7 @@ public class TermNode {
         //
         // GR 41:
         //
-        //		term : factor factor-tail
+        //      term : factor factor-tail
         //
 
         // Read the factor and the factor-tail.

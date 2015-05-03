@@ -1,9 +1,6 @@
-/**
- * Created by Luke on 4/30/2015.
- */
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Stack;
+
+
 public class ElsePartNode {
 
     //==================//
@@ -12,25 +9,23 @@ public class ElsePartNode {
 
     private StmtListNode m_stmtList;
 
+
     //=========//
     // Methods //
     //=========//
 
-    public ElsePartNode(){
-
-    }
-
-    public ElsePartNode(StmtListNode stmtList){
+    public ElsePartNode(StmtListNode stmtList) {
         m_stmtList = stmtList;
     }
 
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
     {
-        if(m_stmtList != null){
+        if (m_stmtList != null) {
             m_stmtList.execute(progState);
         }
     }
+
 
     //================//
     // Static Methods //
@@ -41,32 +36,49 @@ public class ElsePartNode {
     {
         ElsePartNode elsePart;
         TokenDescriptor token;
-        StmtListNode stmtList;
-        Stack<TokenDescriptor> toReplace = new Stack<TokenDescriptor>();
 
         // Eat up spaces.
         do {
             token = tokenReader.getToken();
-            toReplace.push(token);
         } while (token.getCode() == TokenCode.T_SPACE);
+
+        //
+        // GR 12.
+        //
+        //      else-part : ELSE stmt-list FI
+        //
 
         if (token.getCode() == TokenCode.T_ELSE) {
-            stmtList = StmtListNode.parseStmtList(tokenReader);
+            // Read the statement list for this ELSE clause.
+            StmtListNode stmtList = StmtListNode.parseStmtList(tokenReader);
+
+            // Create the populated ElsePartNode.
             elsePart = new ElsePartNode(stmtList);
         }
+
+        //
+        // GR 13.
+        //
+        //      else-part : FI
+        //
+
         else {
             // If the token wasn't an ELSE keyword, put it back.
-            while (!toReplace.isEmpty()) {
-                tokenReader.unread(toReplace.pop());
-            }
-            elsePart = new ElsePartNode();
+            tokenReader.unread(token);
+
+            // Create an empty ElsePartNode.
+            elsePart = new ElsePartNode(null);
         }
-        // Eat up spaces.
+
+        // Eat any spaces before the "FI" keyword.
         do {
             token = tokenReader.getToken();
         } while (token.getCode() == TokenCode.T_SPACE);
 
+        // Ensure a "FI" keyword ends this else-part.
         assert(token.getCode() == TokenCode.T_FI);
+
+
         return elsePart;
     }
 

@@ -88,7 +88,7 @@ public class StmtListNode {
         //
         // GR 1:
         //
-        // 		stmt-list : stmt stmt-tail
+        //      stmt-list : stmt stmt-tail
         //
 
         // Read "stmt" and "stmt-tail".

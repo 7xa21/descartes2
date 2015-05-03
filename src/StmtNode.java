@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+
 public class StmtNode {
 
     //=========//
@@ -56,20 +57,6 @@ public class StmtNode {
     public static StmtNode parseStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
-        //
-        // Look for the following:
-        //
-        //	- if statement
-        //	- loop statement
-        //	- break statement
-        //	X assignment statement
-        //	- read statement
-        //	- print statement
-        //
-        // If we don't find one of these, this is an empty
-        // statement.
-        //
-
         StmtNode node;
 
 
@@ -85,7 +72,7 @@ public class StmtNode {
         //
         // GR 5.
         //
-        //		stmt : loop-stmt
+        //      stmt : loop-stmt
         //
         else if (LoopStmtNode.detectLoopStmt(tokenReader)) {
             node = LoopStmtNode.parseLoopStmt(tokenReader);
@@ -94,7 +81,7 @@ public class StmtNode {
         //
         // GR 6.
         //
-        //		stmt : break-stmt
+        //      stmt : break-stmt
         //
         else if (BreakStmtNode.detectBreakStmt(tokenReader)) {
             node = BreakStmtNode.parseBreakStmt(tokenReader);
@@ -103,7 +90,7 @@ public class StmtNode {
         //
         // GR 7.
         //
-        //		stmt : assign-stmt
+        //      stmt : assign-stmt
         //
         else if (AssignStmtNode.detectAssignStmt(tokenReader)) {
             node = AssignStmtNode.parseAssignStmt(tokenReader);
@@ -112,7 +99,7 @@ public class StmtNode {
         //
         // GR 8.
         //
-        // 		stmt : read-stmt
+        //      stmt : read-stmt
         //
         else if (ReadStmtNode.detectReadStmt(tokenReader)) {
             node = ReadStmtNode.parseReadStmt(tokenReader);
@@ -121,7 +108,7 @@ public class StmtNode {
         //
         // GR 9.
         //
-        // 		stmt : print-stmt
+        //      stmt : print-stmt
         //
         else if (PrintStmtNode.detectPrintStmt(tokenReader)) {
             node = PrintStmtNode.parsePrintStmt(tokenReader);
@@ -130,7 +117,7 @@ public class StmtNode {
         //
         // GR 10.
         //
-        //		stmt :
+        //      stmt :
         //
 
         // If none of the above statement types were found, the
