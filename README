@@ -1,0 +1,122 @@
+Descartes 2 Interpreter
+=======================
+
+This is a straightforward parser and interpreter for a programming
+language named Descartes 2. It is being developed by Randall
+Sorensen, Tucker Cross and Luke Fisher for the requirements of the
+course Principles of Programming Languages at Metropolitan State
+University of Denver in the Spring 2015 semester.
+
+The Descartes 2 language is a very simple imperative, procedural
+language. It features loops, if-then/else statements, variables
+with only the double type, basic arithmetic operations and boolean
+logical operators. It also has PRINT and READ statements for
+interacting with the user.
+
+------------------------------------------------------------------
+NOTE: This is still a work in progress! Currently the software
+surpasses the assignment requirements, which were to run a
+provided example program (found in tests/example.dc).
+
+The assignment is officially due 2015-May-5 at 11:59 PM. Work (for
+fun) may continue after this time; possible additions may include
+functions and goto statements, among other features.
+------------------------------------------------------------------
+
+It presently dumps the symbol table after executing a program so
+the values of any variables may be examined. In its final form,
+this may be an option available via command-line argument.
+
+
+Context-Free Grammar
+====================
+
+The context-free grammar for Descartes 2 is as follows:
+
+   <prog>               ->      <stmt-list> PERIOD
+   <stmt-list>          ->      <stmt> <stmt-tail>
+   <stmt-tail>          ->      SEMICOLON <stmt> <stmt-tail>
+   <stmt-tail>          ->
+   <stmt>               ->      <if-stmt>
+   <stmt>               ->      <loop-stmt>
+   <stmt>               ->      <break-stmt>
+   <stmt>               ->      <assign-stmt>
+   <stmt>               ->      <read-stmt>
+   <stmt>               ->      <print-stmt>
+   <stmt>               ->
+   <if-stmt>            ->      IF <expr> THEN <stmt-list> <else-part>
+   <else-part>          ->      ELSE <stmt-list> FI
+   <else-part>          ->      FI
+   <loop-stmt>          ->      LOOP ID COLON <stmt-list> REPEAT
+   <break-stmt>         ->      BREAK <id-option>
+   <id-option>          ->      ID
+   <id-option>          ->
+   <assign-stmt>        ->      ID BECOMES <expr>
+   <print-stmt>         ->      PRINT ID <id-list-tail>
+   <read-stmt>          ->      READ ID <id-list-tail>
+   <id-list-tail>       ->      , ID <id-list-tail>
+   <id-list-tail>       ->
+   <expr>               ->      <bool-term> <bool-term-tail>
+   <bool-term-tail>     ->      OR <bool-term> <bool-term-tail>
+   <bool-term-tail>     ->
+   <bool-term>          ->      <bool-factor> <bool-factor-tail>
+   <bool-factor-tail>   ->      AND <bool-factor> <bool-factor-tail>
+   <bool-factor-tail>   ->
+   <bool-factor>        ->      <arith-expr> <relation-option>
+   <relation-option>    ->      < <arith-expr>
+   <relation-option>    ->      <= <arith-expr>
+   <relation-option>    ->      = <arith-expr>
+   <relation-option>    ->      >= <arith-expr>
+   <relation-option>    ->      > <arith-expr>
+   <relation-option>    ->      <> <arith-expr>
+   <relation-option>    ->
+   <arith-expr>         ->      <term <term-tail>
+   <term-tail>          ->      + <term> <term-tail>
+   <term-tail>          ->      - <term> <term-tail>
+   <term-tail>          ->
+   <term>               ->      <factor> <factor-tail>
+   <factor-tail>        ->      * <factor> <factor-tail>
+   <factor-tail>        ->      / <factor> <factor-tail>
+   <factor-tail>        ->
+   <factor>             ->      - <factor>
+   <factor>             ->      <atom>
+   <factor>             ->      ( expr )
+   <atom>               ->      ID
+   <atom>               ->      CONST
+
+   
+Terminal Symbols
+================
+    Reserved words:
+
+        AND, OR
+        IF, THEN, ELSE, FI
+        LOOP, BREAK, REPEAT
+        PRINT, READ
+
+        
+    Operators and symbols:
+
+        <
+        <=
+        =       (boolean equality test)
+        >=
+        >
+        <>      (boolean inequality)
+        ,
+        .       PERIOD
+        ;       SEMICOLON
+        + -
+        / *
+        ( )
+        :=      BECOMES
+
+        
+    Other:
+        ID      an alphanumeric token that isn't a reserved word
+        CONST   a numeric constant
+
+        
+Usage
+=====
+    java Descartes SOURCEFILE
