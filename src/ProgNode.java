@@ -33,7 +33,7 @@ public class ProgNode {
             throws IOException, DCSyntaxErrorException
     {
         //
-        // GR 0:
+        // GR 0.
         //
         //      prog : stmt-list PERIOD
         //

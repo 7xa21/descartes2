@@ -36,13 +36,14 @@ public class LoopStmtNode extends StmtNode {
 
         //
         // When a break statement is executed, the "break name" is
-        // provided after the break keyword.
+        // provided after the BREAK keyword. If no name is given,
+        // the inner-most loop's name (found at the top of the
+        // loop stack) is used.
         //
-        // If no name is given, the inner-most loop's name (found
-        // at the top of the loop stack) is used.
-        //
-        // So only clear the break name if we're breaking this
-        // loop and not a previous one.
+        // A stmt-list will only continue to execute if no break
+        // name is set. At this point we've broken out of the
+        // loop - but we only clear the break name if we're
+        // breaking *this* loop, and not a higher one.
         //
 
         if (progState.breakName().equals(m_id))
@@ -86,8 +87,7 @@ public class LoopStmtNode extends StmtNode {
             throws IOException, DCSyntaxErrorException
     {
         TokenDescriptor token;
-        String id;
-        StmtListNode stmtList;
+
 
         //
         // GR 14.
@@ -103,17 +103,18 @@ public class LoopStmtNode extends StmtNode {
         // Look for "LOOP" keyword.
         assert(token.getCode() == TokenCode.T_LOOP);
 
-        // Eat up spaces between "LOOP" and the loop's ID.
-        do {
-            token = tokenReader.getToken();
-        } while (token.getCode() == TokenCode.T_SPACE);
+        // Whitespace must follow the loop keyword.
+        token = tokenReader.getToken();
+        assert(token.getCode() == TokenCode.T_SPACE);
 
-        // "token" should now be the loop ID string.
+        // The loop ID follows.
+        token = tokenReader.getToken();
         if (token.getCode() != TokenCode.T_ID) {
-            throw new DCSyntaxErrorException(tokenReader,
+            throw new DCSyntaxErrorException(
+                    tokenReader,
                     "Expected loop identifier.");
         }
-        id = token.getText();
+        String id = token.getText();
 
         // Eat any spaces between the ID string and the colon.
         do {
@@ -122,12 +123,13 @@ public class LoopStmtNode extends StmtNode {
 
         // Look for the colon after the ID.
         if (token.getCode() != TokenCode.T_COLON) {
-            throw new DCSyntaxErrorException(tokenReader,
+            throw new DCSyntaxErrorException(
+                    tokenReader,
                     "Expected ':' after loop identifier.");
         }
 
         // Parse the statement list.
-        stmtList = StmtListNode.parseStmtList(tokenReader);
+        StmtListNode stmtList = StmtListNode.parseStmtList(tokenReader);
 
         // Eat up spaces between the statement list and the
         // "REPEAT" keyword.
@@ -137,7 +139,8 @@ public class LoopStmtNode extends StmtNode {
 
         // Look for "REPEAT" keyword.
         if (token.getCode() != TokenCode.T_REPEAT) {
-            throw new DCSyntaxErrorException(tokenReader,
+            throw new DCSyntaxErrorException(
+                    tokenReader,
                     "Expected 'REPEAT' after loop body.");
         }
 

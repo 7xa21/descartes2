@@ -14,6 +14,7 @@ import java.util.Stack;
  * empty, which occurs when a semicolon appears but isn't followed
  * by any statement.
  *
+ * <hr/>
  * <pre>
  *     2. stmt-tail : SEMICOLON stmt stmt-tail
  *     3. stmt-tail :
@@ -56,10 +57,6 @@ public class StmtTailNode {
      * this statement tail.
      *
      * @param progState The current program state
-     *
-     * @throws DCRuntimeErrorException Thrown in the event of a
-     *         runtime error (for instance, if a division by zero
-     *         occurs)
      */
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
@@ -93,11 +90,6 @@ public class StmtTailNode {
      *
      * @return The constructed StmtTailNode that was parsed from
      *         the source code
-     *
-     * @throws IOException Thrown if an error occurs while reading
-     *         the source code file
-     * @throws DCSyntaxErrorException Thrown if a syntax error
-     *         appears in the source code
      */
     public static StmtTailNode parseStmtTail(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
@@ -114,7 +106,7 @@ public class StmtTailNode {
 
 
         //
-        // GR 2:
+        // GR 2.
         //
         //      stmt-tail : SEMICOLON stmt stmt-tail
         //
@@ -130,7 +122,7 @@ public class StmtTailNode {
         }
 
         //
-        // GR 3:
+        // GR 3.
         //
         //      stmt-tail :
         //

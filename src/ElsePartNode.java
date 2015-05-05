@@ -1,6 +1,24 @@
 import java.io.IOException;
 
 
+/**
+ * An else part is the second part of an if statement.
+ *
+ * All if statements have else parts; if no ELSE keyword appears
+ * in the source code following an if clause, the else part is
+ * empty. Otherwise the else part has its own statement list that
+ * will be executed by its parent IfStmtNode when the IfStmtNode
+ * is executed and its conditional expression is equal to 0.0.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     11. if-stmt : IF expr THEN stmt-list else-part
+ *     12. else-part : ELSE stmt-list FI
+ *     13. else-part : FI
+ *         ...
+ * </pre>
+ */
 public class ElsePartNode {
 
     //==================//

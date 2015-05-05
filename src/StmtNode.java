@@ -20,9 +20,8 @@ public class StmtNode {
      * nodes (IfStmtNode, LoopStmtNode, BreakStmtNode,
      * AssignStmtNode, ReadStmtNode, PrintStmtNode).
      *
-     * @param progState The current ProgramState instance.
-     *
-     * @throws DCRuntimeErrorException
+     * @param progState The current program state (symbol table,
+     *                  etc.)
      */
     public void execute(ProgState progState)
             throws DCRuntimeErrorException

@@ -7,7 +7,13 @@ import java.io.IOException;
  * loop bodies (LoopNode).
  *
  * <pre>
- *     1. stmt-list : stmt stmt-tail
+ *     0.  prog : stmt-list PERIOD
+ *     1.  stmt-list : stmt stmt-tail
+ *         ...
+ *     11. if-stmt : IF expr THEN stmt-list else-part
+ *     12. else-part : ELSE stmt-list FI
+ *         ...
+ *     14. loop-stmt : LOOP ID COLON stmt-list REPEAT
  * </pre>
  */
 public class StmtListNode {
@@ -43,10 +49,6 @@ public class StmtListNode {
      * statement tail (which executes the next statement, etc.)
      *
      * @param progState The current program state
-     *
-     * @throws DCRuntimeErrorException Thrown in the event of a
-     *         runtime error (for instance, if a division by zero
-     *         occurs)
      */
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
@@ -65,7 +67,7 @@ public class StmtListNode {
 
     /**
      * Reads source code tokens from tokenReader and parses them
-     * into and returns a statement list.
+     * into, and returns, a statement list.
      *
      * Statement lists appear in the bodies of programs, if-then
      * clauses, else clauses and loop bodies. When this method is
@@ -76,17 +78,12 @@ public class StmtListNode {
      *
      * @return The constructed StmtListNode that was parsed from
      *         the source code
-     *
-     * @throws IOException Thrown if an error occurs while reading
-     *         the source code file
-     * @throws DCSyntaxErrorException Thrown if a syntax error
-     *         appears in the source code
      */
     public static StmtListNode parseStmtList(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
         //
-        // GR 1:
+        // GR 1.
         //
         //      stmt-list : stmt stmt-tail
         //

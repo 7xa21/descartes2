@@ -1,12 +1,29 @@
 import java.io.IOException;
 
 
+/**
+ * A non-empty term tail is used to add or subtract a term from
+ * another term.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     37. arith-expr : term term-tail
+ *     38. term-tail : + term term-tail
+ *     39. term-tail : - term term-tail
+ *     40. term-tail :
+ *         ...
+ * </pre>
+ */
 public class TermTailNode {
 
     //=============//
     // Local Types //
     //=============//
 
+    /**
+     * The operators that a term-tail may apply to two terms.
+     */
     public enum Operator {
         ADD,
         SUBTRACT
@@ -27,12 +44,40 @@ public class TermTailNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new term-tail node with the specified
+     * arithmetic operator, term and subsequent term tail.
+     *
+     * If all three of the parameters are null, this term-tail is
+     * empty; otherwise all three parameters must be non-null.
+     *
+     * @param oper One of the operators in the
+     *             TermTailNode.Operator enum (or null)
+     * @param term The right-hand term that this term-tail adds to
+     *             (or subtracts from) another, previous term
+     * @param termTail A subsequent term tail that's applied to
+     *                 the 'term' parameter
+     */
     public TermTailNode(Operator oper, TermNode term, TermTailNode termTail) {
         m_oper = oper;
         m_term = term;
         m_termTail = termTail;
     }
 
+    /**
+     * Evaluates the child term and term-tail and either adds or
+     * subtracts it to the value passed in the 'assoc' parameter
+     * and returns the result.
+     *
+     * If this term-tail is empty, it simply returns the value of
+     * the 'assoc' parameter.
+     *
+     * @param assoc The value that this term-tail modifies
+     * @param progState The current program state
+     *
+     * @return The value of the 'assoc' parameter, modified by
+     *         this term tail if it's non-empty
+     */
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -63,6 +108,20 @@ public class TermTailNode {
     // Static Methods //
     //================//
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, a term tail.
+     *
+     * Statement lists appear after terms. They may be empty, or
+     * they may consist of either a "+" or "-" terminal followed
+     * by a term and a subsequent term tail.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed TermTailNode that was parsed from
+     *         the source code
+     */
     public static TermTailNode parseTermTail(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
@@ -74,7 +133,7 @@ public class TermTailNode {
         } while (token.getCode() == TokenCode.T_SPACE);
 
         //
-        // GR 38/39:
+        // GR 38 / 39.
         //
         //      term-tail : + term term-tail
         //      term-tail : - term term-tail
@@ -101,7 +160,7 @@ public class TermTailNode {
         }
 
         //
-        // GR 40:
+        // GR 40.
         //
         //      term-tail :
         //

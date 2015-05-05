@@ -130,11 +130,6 @@ public class TokenReader {
      *
      * @return The String representation of a numeric literal
      * 		   token.
-     *
-     * @throws IOException Thrown if an error occurs while reading
-     * 		   from the InputStream
-     * @throws DCSyntaxErrorException Thrown if a syntax error is
-     * 		   detected in the source code
      */
     public String readNumber() throws IOException, DCSyntaxErrorException {
         char ch;
@@ -168,6 +163,7 @@ public class TokenReader {
                 // literal.
                 if (hasDecimalPoint) {
                     throw new DCSyntaxErrorException(
+                            this,
                             "Numeric literal already has decimal point."
                     );
                 }
@@ -180,6 +176,7 @@ public class TokenReader {
                 // point...
                 if (m_inStream.available() == 0) {
                     throw new DCSyntaxErrorException(
+                            this,
                             "End of file reached; numeric literal expected " +
                                     "instead."
                     );
@@ -202,6 +199,7 @@ public class TokenReader {
                 ch = (char)m_inStream.read();
                 if (!Character.isDigit(ch)) {
                     throw new DCSyntaxErrorException(
+                            this,
                             "Fractional part of numeric literal expected " +
                                     "following decimal point, but none found."
                     );
@@ -224,11 +222,6 @@ public class TokenReader {
      * Read a token that begins with a letter of the alphabet.
      *
      * @return An alphanumeric token read from the source code
-     *
-     * @throws IOException Thrown if an error occurs while reading
-     * 		   from the InputStream
-     * @throws DCSyntaxErrorException Thrown if a syntax error is
-     * 		   detected in the source code
      */
     public String readAlpha() throws IOException, DCSyntaxErrorException {
         char ch;
@@ -315,9 +308,6 @@ public class TokenReader {
 
     /**
      * Returns a whitespace token as read from the input stream.
-     *
-     * @throws IOException Thrown if an error occurs while reading
-     * 		   from the InputStream
      */
     public void readSpace() throws IOException {
         char ch;
@@ -345,11 +335,6 @@ public class TokenReader {
      * and returns it.
      *
      * @return The token read from the stream
-     *
-     * @throws IOException Thrown if an error occurs while reading
-     * 		   from the InputStream
-     * @throws DCSyntaxErrorException Thrown if a syntax error is
-     * 		   detected in the source code
      */
     public TokenDescriptor getToken()
             throws IOException, DCSyntaxErrorException
@@ -488,6 +473,7 @@ public class TokenReader {
             // often if we used a proper isPunct() method.
             if (!m_operators.containsKey(tokenText)) {
                 throw new DCSyntaxErrorException(
+                        this,
                         "Unrecognized punctuation token: " +
                                 "\"" + tokenText + "\""
                 );
@@ -502,6 +488,7 @@ public class TokenReader {
             //
 
             throw new DCSyntaxErrorException(
+                    this,
                     "Unrecognized character in input stream: " +
                             "\"" + Character.toString(ch) + "\"" +
                             " (ASCII: " + (int)ch + ")"
@@ -519,11 +506,6 @@ public class TokenReader {
      * descisions about tokens before they're read.
      *
      * @param descrip The token to replace in the stream
-     *
-     * @throws IOException Thrown if the underlying
-     * 					   PushbackInputStream used to read source
-     * 					   code throws it
-     *
      */
     public void unread(TokenDescriptor descrip)
             throws IOException
@@ -547,9 +529,6 @@ public class TokenReader {
      *
      * @return true if there are no more tokens to read from the
      * 		   input stream, false otherwise.
-     *
-     * @throws IOException Thrown if an error occurs while
-     * 		   interacting with the source code InputStream
      */
     public boolean atEnd() throws IOException {
         return (m_inStream.available() == 0);

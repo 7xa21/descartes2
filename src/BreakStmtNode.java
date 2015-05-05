@@ -2,6 +2,18 @@ import java.io.IOException;
 import java.util.Stack;
 
 
+/**
+ * A break statement with no ID provided will exit the inner most
+ * loop that's executing; otherwise it will stop the named loop
+ * from executing.
+ *
+ * <hr/>
+ * <pre>
+ *     6.  stmt : break-stmt
+ *        ...
+ *     15. break-stmt : BREAK id-option
+ * </pre>
+ */
 public class BreakStmtNode extends StmtNode {
 
     //==================//
@@ -15,10 +27,25 @@ public class BreakStmtNode extends StmtNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new break statement node with the (optional)
+     * loop ID.
+     *
+     * @param idOption An IDOptionNode (which is possibly empty)
+     */
     public BreakStmtNode(IDOptionNode idOption) {
         m_idOption = idOption;
     }
 
+    /**
+     * Stops the inner-most loop from executing, or stops the
+     * named loop from executing if a loop ID was provided.
+     *
+     * @param progState The current program state (symbol table,
+     *                  etc.)
+     *
+     * @see IDOptionNode#popLoopID(ProgState)
+     */
     public void execute(ProgState progState) {
         m_idOption.popLoopID(progState);
     }
@@ -28,6 +55,26 @@ public class BreakStmtNode extends StmtNode {
     // Static Methods //
     //================//
 
+    /**
+     * Returns 'true' if a break statement appears next in the
+     * input source code.
+     *
+     * This is used by StmtNode.parseStmt() which must detect any
+     * of seven possible statements (including blank/empty
+     * statements).
+     *
+     * The tokenReader is not advanced by this method; it only
+     * detects whether a break statement appears next. If 'true'
+     * is returned by this method, BreakStmtNode.parseAssignStmt()
+     * should be called immediately after to parse the break
+     * statement.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return 'true' if a break statement appears next in the
+     *         input source code
+     */
     public static boolean detectBreakStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
@@ -55,6 +102,20 @@ public class BreakStmtNode extends StmtNode {
         return detected;
     }
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, a break statement.
+     *
+     * Break statements consist of the keyword "BREAK" followed by
+     * an optional loop ID that will stop executing when this
+     * statement is reached.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed BreakStmtNode that was parsed from
+     *         the source code
+     */
     public static BreakStmtNode parseBreakStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {

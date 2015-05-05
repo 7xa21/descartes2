@@ -3,6 +3,21 @@ import java.io.IOException;
 
 /**
  * An arithmetic expression is a sum of terms.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     29. bool-factor : arith-expr relation-option
+ *     30. relation-option : < arith-expr
+ *     31. relation-option : <= arith-expr
+ *     32. relation-option : = arith-expr
+ *     33. relation-option : >= arith-expr
+ *     34. relation-option : > arith-expr
+ *     35. relation-option : <> arith-expr
+ *         ...
+ *     37. arith-expr : term term-tail
+ *         ...
+ * </pre>
  */
 public class ArithExprNode {
 
@@ -40,10 +55,6 @@ public class ArithExprNode {
      * @param progState The current program state
      *
      * @return The value of the evaluated arithmetic expression.
-     *
-     * @throws DCRuntimeErrorException Thrown in the event of a
-     *         runtime error (for instance, if a division by zero
-     *         occurs)
      */
     public double getVal(ProgState progState)
             throws DCRuntimeErrorException
@@ -70,16 +81,17 @@ public class ArithExprNode {
      * When this method is called a term is imminently expected to
      * appear in the input stream.
      *
-     * @param tokenReader
-     * @return
-     * @throws IOException
-     * @throws DCSyntaxErrorException
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed ArithExprNode that was parsed from
+     *         the source code
      */
     public static ArithExprNode parseArithExpr(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
         //
-        // GR 37:
+        // GR 37.
         //
         //      arith-expr : term term-tail
         //

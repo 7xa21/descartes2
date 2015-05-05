@@ -65,7 +65,7 @@ public class PrintStmtNode extends StmtNode{
             throws IOException, DCSyntaxErrorException
     {
         //
-        // GR 19:
+        // GR 19.
         //
         //      print-stmt : PRINT ID id-list-tail
         //

@@ -67,7 +67,7 @@ public class IDListTailNode {
         } while (token.getCode() == TokenCode.T_SPACE);
 
         //
-        // GR 21:
+        // GR 21.
         //
         //      id-list-tail : , ID id-list-tail
         //
@@ -95,7 +95,7 @@ public class IDListTailNode {
         }
 
         //
-        // GR 22:
+        // GR 22.
         //
         //      id-list-tail :
         //

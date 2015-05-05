@@ -1,12 +1,35 @@
 import java.io.IOException;
 
 
+/**
+ * A relation option follows an arithmetic expression in a
+ * bool factor and is used to determine equality or inequality
+ * between two arithmetic expressions.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     29. bool-factor : arith-expr relation-option
+ *     30. relation-option : < arith-expr
+ *     31. relation-option : <= arith-expr
+ *     32. relation-option : = arith-expr
+ *     33. relation-option : >= arith-expr
+ *     34. relation-option : > arith-expr
+ *     35. relation-option : <> arith-expr
+ *     36. relation-option :
+ *         ...
+ * </pre>
+ */
 public class RelationOptionNode {
 
     //=============//
     // Local Types //
     //=============//
 
+    /**
+     * The comparison operators that can be applied to two
+     * arithmetic expressions.
+     */
     public enum Operator {
         LESS_THAN,
         LESS_EQUAL,
@@ -29,11 +52,34 @@ public class RelationOptionNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new relation option with the specified
+     * comparison operator and subsequent arithmetic expression.
+     *
+     * @param oper One of the operators from the
+     *             RelationOptionNode.Operator enum
+     * @param arithExpr An arithmetic expression node
+     */
     public RelationOptionNode(Operator oper, ArithExprNode arithExpr) {
         m_oper = oper;
         m_arithExpr = arithExpr;
     }
 
+    /**
+     * Compares this node's arithmetic expression with the value
+     * passed in 'assoc' using the specified comparison operator
+     * and returns the result.
+     *
+     * If the relation-option node is empty, the value of 'assoc'
+     * is returned unchanged.
+     *
+     * @param assoc The value that this relation option node's
+     *              arithmetic expression will be compared with
+     * @param progState The current program state
+     *
+     * @return The result of comparing the value of 'assoc' with
+     *         the value of the child arithmetic expression
+     */
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -69,6 +115,23 @@ public class RelationOptionNode {
     // Static Methods //
     //================//
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, a relation option node.
+     *
+     * Non-empty relation options consist of a comparison operator
+     * and a subsequent arithmetic expression, or they are empty.
+     *
+     * An arithmetic expresion in a bool-factor that isn't
+     * followed by a comparison operator is simply an empty
+     * relation option.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed RelationOptionNode that was parsed
+     *         from the source code
+     */
     public static RelationOptionNode parseRelationOption(
             TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
@@ -82,7 +145,7 @@ public class RelationOptionNode {
         } while (token.getCode() == TokenCode.T_SPACE);
 
         //
-        // GR 30 / 31 / 32 / 33 / 34 / 35:
+        // GR 30 / 31 / 32 / 33 / 34 / 35.
         //
         //      relation-option : < arith-expr
         //      relation-option : <= arith-expr
@@ -108,7 +171,7 @@ public class RelationOptionNode {
         }
 
         //
-        // GR 36:
+        // GR 36.
         //
         //      relation-option :
         //

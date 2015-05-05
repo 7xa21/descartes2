@@ -2,6 +2,10 @@ import java.io.*;
 import java.util.TreeSet;
 
 
+/**
+ * The Descartes object parses and executes programs written in
+ * the Descartes 2 programming language.
+ */
 public class Descartes {
 
     //==================//
@@ -67,7 +71,7 @@ public class Descartes {
      * it.
      *
      * @param args The first (and only) argument is the name of a
-     *        Descartes source code file.
+     *             Descartes source code file.
      */
     public static void main(String[] args) {
         try {

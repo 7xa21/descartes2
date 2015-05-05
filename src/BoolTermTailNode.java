@@ -1,6 +1,18 @@
 import java.io.IOException;
 
 
+/**
+ * A bool term tail is used to modify a bool term with an "OR"
+ * boolean operator and subsequent bool term (and possibly another
+ * bool term tail).
+ *
+ * <hr/>
+ * <pre>
+ *     23. expr : bool-term bool-term-tail
+ *     24. bool-term-tail : OR bool-term bool-term-tail
+ *     25. bool-term-tail :
+ * </pre>
+ */
 public class BoolTermTailNode {
 
     //==================//
@@ -15,6 +27,16 @@ public class BoolTermTailNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new bool-term-tail with the provided bool-term
+     * and subsequent bool-term-tail.
+     *
+     * If the two parameters are null, an empty bool-term-tail is
+     * constructed; otherwise both parameters must not be null.
+     *
+     * @param boolTerm A BoolTermNode (or null)
+     * @param boolTermTail A BoolTermTailNode (or null)
+     */
     public BoolTermTailNode(BoolTermNode boolTerm,
                             BoolTermTailNode boolTermTail)
     {
@@ -22,27 +44,44 @@ public class BoolTermTailNode {
         m_boolTermTail = boolTermTail;
     }
 
+    /**
+     * Modifies the value of the 'assoc' parameter by logically
+     * OR'ing it with a bool-term (and subsequent bool-term-tail).
+     *
+     * If this bool-term-tail was constructed with null members,
+     * the value of 'assoc' is returned unmodified.
+     *
+     * @param assoc This is the value to use for the left-hand
+     *              side of the OR operator denoted by this
+     *              bool-term-tail
+     * @param progState The current program state
+     *
+     * @return The value of the bool-term-tail
+     */
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
-        // Get the value of the child bool-term.
-        double termVal = assoc;
-
         if (m_boolTerm != null) {
             assert(m_boolTermTail != null);
 
+            // Get the value of the child bool-term.
             double tailVal = m_boolTerm.getVal(progState);
+
+            // Modify the value of the child bool-term by its
+            // subsequent bool-term-tail.
             tailVal = m_boolTermTail.getVal(tailVal, progState);
 
-            if (termVal != 0.0 || tailVal != 0.0) {
-                termVal = 1.0;
+            // Boolean OR the 'assoc' parameter with the value of
+            // the bool-term and bool-term-tail.
+            if (assoc != 0.0 || tailVal != 0.0) {
+                assoc = 1.0;
             } else {
-                termVal = 0.0;
+                assoc = 0.0;
             }
         }
 
 
-        return termVal;
+        return assoc;
     }
 
 
@@ -50,6 +89,20 @@ public class BoolTermTailNode {
     // Static Methods //
     //================//
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, a bool term tail.
+     *
+     * Bool term tails, if non-empty, consist of the keyword "OR"
+     * followed by a bool-factor and a subsequent
+     * bool-factor-tail.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed BoolTermTailNode that was parsed
+     *         from the source code
+     */
     public static BoolTermTailNode parseBoolTermTail(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
@@ -61,7 +114,7 @@ public class BoolTermTailNode {
         } while (token.getCode() == TokenCode.T_SPACE);
 
         //
-        // GR 24:
+        // GR 24.
         //
         //      bool-term-tail : OR bool-term bool-term-tail
         //
@@ -78,7 +131,7 @@ public class BoolTermTailNode {
         }
 
         //
-        // GR 25:
+        // GR 25.
         //
         //      bool-term-tail :
         //

@@ -80,7 +80,7 @@ public class FactorTailNode {
         } while (token.getCode() == TokenCode.T_SPACE);
 
         //
-        // GR 42/43:
+        // GR 42 / 43.
         //
         //      factor-tail : * term term-tail
         //      factor-tail : / term term-tail
@@ -105,7 +105,7 @@ public class FactorTailNode {
         }
 
         //
-        // GR 44:
+        // GR 44.
         //
         //      factor-tail :
         //

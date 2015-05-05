@@ -75,7 +75,7 @@ public class FactorNode {
         FactorNode factor;
 
         //
-        // GR 45:
+        // GR 45.
         //
         //      factor : - factor
         //
@@ -89,7 +89,7 @@ public class FactorNode {
         }
 
         //
-        // GR 47:
+        // GR 47.
         //
         //      factor : ( expr )
         //
@@ -115,7 +115,7 @@ public class FactorNode {
         }
 
         //
-        // GR 46:
+        // GR 46.
         //
         //      factor : atom
         //

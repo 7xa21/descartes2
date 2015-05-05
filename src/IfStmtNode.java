@@ -85,7 +85,7 @@ public class IfStmtNode extends StmtNode {
         } while (token.getCode() == TokenCode.T_SPACE);
 
         //
-        // GR 11:
+        // GR 11.
         //
         //      if-stmt : IF expr Then stmt-list else-part
         //

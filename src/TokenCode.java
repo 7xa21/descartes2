@@ -1,3 +1,7 @@
+/**
+ * An enumeration of all the various token types that exist in the
+ * Descartes 2 programming language.
+ */
 public enum TokenCode {
     T_PERIOD,
     T_SEMICOLON,
