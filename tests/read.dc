@@ -1,9 +1,9 @@
-A := 5;
-B := 3;
-C := 5;
+READ A;
+READ B;
+READ C;
 D := A + B + C;
-PRINT D;
-PRINT C;
-PRINT B;
 PRINT A;
+PRINT B;
+PRINT C;
+PRINT D;
 .
