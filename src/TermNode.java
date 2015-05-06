@@ -97,4 +97,5 @@ public class TermNode {
 
         return new TermNode(factor, factorTail);
     }
+
 }

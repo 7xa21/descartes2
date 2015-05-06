@@ -8,10 +8,12 @@ import java.io.IOException;
  *
  * <hr/>
  * <pre>
+ *         ...
  *     26. bool-term : bool-factor bool-factor tail
  *     27. bool-factor-tail : AND bool-factor bool-factor-tail
  *         ...
  *     29. bool-factor : arith-expr relation-option
+ *         ...
  * </pre>
  */
 public class BoolFactorNode {
@@ -107,4 +109,5 @@ public class BoolFactorNode {
                 RelationOptionNode.parseRelationOption(tokenReader);
         return new BoolFactorNode(arithExpr, relationOption);
     }
+
 }

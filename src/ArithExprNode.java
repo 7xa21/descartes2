@@ -34,10 +34,8 @@ public class ArithExprNode {
     //=========//
 
     /**
-     * Construct a new arithmetic expression node.
-     *
-     * Arithmetic expressions consist of a term and a term-tail.
-     * Arithmetic expressions are a sum of terms.
+     * Construct a new arithmetic expression node with the given
+     * term and term-tail.
      *
      * @param term The first term in the expression
      * @param termTail The term tail, to which subsequent terms in

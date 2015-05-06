@@ -1,6 +1,19 @@
 import java.io.IOException;
 
 
+/**
+ * An id-option is an optional modifier of a BREAK statement. It
+ * provides the name of the loop that will be broken.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     15. break-stmt : BREAK id-option
+ *     16. id-option : ID
+ *     17. id-option :
+ *         ...
+ * </pre>
+ */
 public class IDOptionNode {
 
     //==================//
@@ -14,10 +27,22 @@ public class IDOptionNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new id-option using the specified loop ID.
+     *
+     * @param id A String that identifies an active loop statement
+     */
     public IDOptionNode(String id) {
         m_id = id;
     }
 
+    /**
+     * Effectively executes a break statement by popping the loop
+     * with this node's ID off the loop stack in the program
+     * state and setting the current break name to that id.
+     *
+     * @param progState The current program state
+     */
     public void popLoopID(ProgState progState) {
         String id;
 
@@ -52,6 +77,21 @@ public class IDOptionNode {
     // Static Methods //
     //================//
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, an id option node.
+     *
+     * An id-option identifies a currently active loop. It
+     * optionally appears after a BREAK keyword. If no identifier
+     * token is found after a BREAK keyword, the id-option is
+     * empty.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed IDOptionNode that was parsed from
+     *         the source code
+     */
     public static IDOptionNode parseIDOption(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
@@ -89,4 +129,5 @@ public class IDOptionNode {
 
         return idOption;
     }
+
 }

@@ -2,6 +2,19 @@ import java.io.IOException;
 import java.util.Stack;
 
 
+/**
+ * An if statement is a flow-control modifier offering alternate
+ * statement lists that are executed based on a boolean condition.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     4.  stmt : if-stmt
+ *         ...
+ *     11. if-stmt : IF expr THEN stmt-list else-part
+ *         ...
+ * </pre>
+ */
 public class IfStmtNode extends StmtNode {
 
     //==================//
@@ -17,15 +30,33 @@ public class IfStmtNode extends StmtNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new if statement given the provided
+     * expression, statement list and else-part
+     *
+     * @param exp The expression whose evaluation will serve as
+     *            the boolean condition for this if statement
+     * @param stmtList The statement list to execute when the if
+     *                 statement's condition is non-zero
+     * @param elsePart The else-part clause attached to this if
+     *                 statement
+     */
     public IfStmtNode(ExprNode exp,
                       StmtListNode stmtList,
-                      ElsePartNode els)
+                      ElsePartNode elsePart)
     {
         m_expr = exp;
         m_stmtList = stmtList;
-        m_else = els;
+        m_else = elsePart;
     }
 
+    /**
+     * Executes this if statement. The expression is evaluated;
+     * if non-zero, the statement list is executed, otherwise the
+     * else part is executed.
+     *
+     * @param progState The current program state
+     */
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -41,6 +72,25 @@ public class IfStmtNode extends StmtNode {
     // Static Methods //
     //================//
 
+    /**
+     * Returns 'true' if an if statement appears next in the input
+     * source code.
+     *
+     * This is used by StmtNode.parseStmt() which must detect any
+     * of seven possible statements (including blank/empty
+     * statements).
+     *
+     * The tokenReader is not advanced by this method; it only
+     * detects whether an if statement appears next. If 'true' is
+     * returned by this method, IfStmtNode.parseIfStmt() should be
+     * called immediately after to parse the if statement.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return 'true' if an if statement appears next in the input
+     *         source code
+     */
     public static boolean detectIfStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
@@ -72,6 +122,24 @@ public class IfStmtNode extends StmtNode {
         return detected;
     }
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, an if statement node.
+     *
+     * An if statement begins with the "IF" keyword, is followed
+     * by an expression, then proceeds with a THEN keyword, a
+     * statement list and an else-part.
+     *
+     * All if statements have else parts; if no ELSE keyword
+     * appears in the source code, the else part is simply empty.
+     * The "FI" keyword is thus part of the else-part.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed IfStmtNode that was parsed from the
+     *         source code
+     */
     public static IfStmtNode parseIfStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
 

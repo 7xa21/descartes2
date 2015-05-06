@@ -19,4 +19,5 @@ public class DCSyntaxErrorException extends Exception {
         super(tokenReader.fileName() + ": line " + tokenReader.lineNum() +
                 ": " + message);
     }
+
 }

@@ -7,10 +7,12 @@ import java.io.IOException;
  *
  * <hr/>
  * <pre>
+ *         ...
  *     23. expr : bool-term bool-term-tail
  *     24. bool-term-tail : OR bool-term bool-term-tail
  *         ...
  *     26. bool-term : bool-factor bool-factor-tail
+ *         ...
  * </pre>
  */
 public class BoolTermNode {

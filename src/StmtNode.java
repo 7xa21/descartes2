@@ -1,6 +1,26 @@
 import java.io.IOException;
 
 
+/**
+ * This is the parent of all other statement node classes. A
+ * direct instance of this is used to represent empty statements.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     1.  stmt-list : stmt stmt-tail
+ *     2.  stmt-tail : SEMICOLON stmt stmt-tail
+ *         ...
+ *     4.  stmt : if-stmt
+ *     5.  stmt : loop-stmt
+ *     6.  stmt : break-stmt
+ *     7.  stmt : assign-stmt
+ *     8.  stmt : read-stmt
+ *     9.  stmt : print-stmt
+ *     10. stmt :
+ *         ...
+ * </pre>
+ */
 public class StmtNode {
 
     //=========//
@@ -128,4 +148,5 @@ public class StmtNode {
 
         return node;
     }
+
 }

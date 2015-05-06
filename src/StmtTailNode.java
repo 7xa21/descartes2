@@ -16,8 +16,10 @@ import java.util.Stack;
  *
  * <hr/>
  * <pre>
- *     2. stmt-tail : SEMICOLON stmt stmt-tail
- *     3. stmt-tail :
+ *         ...
+ *     2.  stmt-tail : SEMICOLON stmt stmt-tail
+ *     3.  stmt-tail :
+ *         ...
  * </pre>
  */
 public class StmtTailNode {
@@ -35,7 +37,8 @@ public class StmtTailNode {
     //=========//
 
     /**
-     * Builds a new statement tail.
+     * Constructs a new statement tail with the given statement
+     * and subsequent statement tail.
      *
      * If no semicolon is found, then no statement or subsequent
      * statement tail will follow this statement tail, and those
@@ -139,4 +142,5 @@ public class StmtTailNode {
 
         return stmtTail;
     }
+
 }

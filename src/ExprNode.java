@@ -33,7 +33,8 @@ public class ExprNode {
     //=========//
 
     /**
-     * Constructs a new expression node.
+     * Constructs a new expression node from the given bool-term
+     * and bool-term-tail.
      *
      * @param boolTerm A BoolTermNode instance
      * @param boolTermTail A BoolTermTailNode instance
@@ -44,7 +45,7 @@ public class ExprNode {
     }
 
     /**
-     * Evaluates the expression and returns the resulting value.
+     * Evaluates the expression and returns its value.
      *
      * @param progState The current program state
      *
@@ -99,4 +100,5 @@ public class ExprNode {
 
         return new ExprNode(boolTerm, boolTermTail);
     }
+
 }

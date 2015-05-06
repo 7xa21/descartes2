@@ -12,7 +12,7 @@ public class Descartes {
     // Member Variables //
     //==================//
 
-    /** TokenReader that source code tokens will be read from. */
+    // Contains the notorious "getToken()" method.
     private TokenReader m_tokenReader;
 
 

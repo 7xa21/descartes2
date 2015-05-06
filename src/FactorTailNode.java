@@ -1,11 +1,32 @@
 import java.io.IOException;
 
 
+/**
+ * A factor tail follows a factor and, if non-empty, modifies
+ * the factor by either multiplying it or dividing it by a
+ * subsequent factor. It then includes its own subsequent factor
+ * tail.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     41. term : factor factor-tail
+ *     42. factor-tail : * factor factor-tail
+ *     43. factor-tail : / factor factor-tail
+ *     44. factor-tail :
+ *         ...
+ * </pre>
+ */
 public class FactorTailNode {
 
     //=============//
     // Local Types //
     //=============//
+
+    /**
+     * The (higher precedence) arithmetic operators that may be
+     * applied to two factors.
+     */
     public enum Operator {
         MULTIPLY,
         DIVIDE
@@ -26,6 +47,16 @@ public class FactorTailNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new factor tail node that will apply 'oper'
+     * to an external, left-associative factor and the specified
+     * factor (with factor tail) value.
+     *
+     * @param oper The operator this factor tail will apply (or
+     *             null)
+     * @param factor The right-hand operand of 'oper' (or null)
+     * @param factorTail The factor tail modifying 'factor'
+     */
     public FactorTailNode(Operator oper,
                           FactorNode factor,
                           FactorTailNode factorTail)
@@ -35,6 +66,18 @@ public class FactorTailNode {
         m_factorTail = factorTail;
     }
 
+    /**
+     * Modifies the value of 'assoc' by this factor tail and
+     * returns the result. If this factor tail is empty, the value
+     * of 'assoc' is returned unmodified.
+     *
+     * @param assoc The left-associate operand of this factor
+     *              tail's operator
+     * @param progState The current program state
+     *
+     * @return The result of the operation implied by this
+     *         factor-tail
+     */
     public double getVal(double assoc, ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -70,6 +113,21 @@ public class FactorTailNode {
     // Static Methods //
     //================//
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, a factor tail node.
+     *
+     * A factor and factor-tail constitute a term.
+     *
+     * A factor tail begins with an asterisk (multiplication
+     * operator), a slash (division operator) or is empty.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed FactorTailNode that was parsed from
+     *         the source code
+     */
     public static FactorTailNode parseFactorTail(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
@@ -119,4 +177,5 @@ public class FactorTailNode {
 
         return factorTail;
     }
+
 }

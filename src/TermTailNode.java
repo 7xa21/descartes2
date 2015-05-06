@@ -22,7 +22,8 @@ public class TermTailNode {
     //=============//
 
     /**
-     * The operators that a term-tail may apply to two terms.
+     * The (lower precedence) operators that a term-tail may be
+     * applied to two terms.
      */
     public enum Operator {
         ADD,
@@ -176,4 +177,5 @@ public class TermTailNode {
 
         return termTail;
     }
+
 }

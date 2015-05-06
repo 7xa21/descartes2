@@ -30,11 +30,9 @@ public class AssignStmtNode extends StmtNode {
     //=========//
 
     /**
-     * Constructs an assignment expression node.
-     *
-     * Assignment expressions consist of a variable's ID and an
-     * expression to evaluate and assign the value of to the
-     * variable.
+     * Constructs an assignment expression node with the given
+     * variable ID (left-hand side) and expression (right-hand
+     * side).
      *
      * @param id The ID of the variable being assigned
      * @param expr The expression to evaluate and assign the value
@@ -49,8 +47,7 @@ public class AssignStmtNode extends StmtNode {
      * Evaluates the expression and assigns the result to the
      * variable with the ID provided in the constructor.
      *
-     * @param progState The current program state (symbol table,
-     *                  etc.)
+     * @param progState The current program state
      */
     public void execute(ProgState progState)
             throws DCRuntimeErrorException

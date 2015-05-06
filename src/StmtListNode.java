@@ -14,6 +14,7 @@ import java.io.IOException;
  *     12. else-part : ELSE stmt-list FI
  *         ...
  *     14. loop-stmt : LOOP ID COLON stmt-list REPEAT
+ *         ...
  * </pre>
  */
 public class StmtListNode {
@@ -30,7 +31,8 @@ public class StmtListNode {
     //=========//
 
     /**
-     * Builds a new statement list.
+     * Constructs a new statement list with the given statement
+     * and statement tail.
      *
      * Statement lists consist of a statement and a statement
      * tail.
@@ -95,6 +97,5 @@ public class StmtListNode {
 
         return new StmtListNode(stmt, stmtTail);
     }
-}
 
-// (eof)
+}

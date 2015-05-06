@@ -32,10 +32,20 @@ public class ElsePartNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new else-part with the given statement list.
+     *
+     * @param stmtList A StmtListNode instance
+     */
     public ElsePartNode(StmtListNode stmtList) {
         m_stmtList = stmtList;
     }
 
+    /**
+     * Executes the else part's statement list.
+     *
+     * @param progState The current program state
+     */
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -49,6 +59,25 @@ public class ElsePartNode {
     // Static Methods //
     //================//
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, an else-part node.
+     *
+     * Else clauses terminate ALL if statements. An explicit else
+     * clause begins with the "ELSE" keyword and subsequent
+     * statement list.
+     *
+     * If no "ELSE" keyword (and subsequent statement list)
+     * follows an if statement, it is empty.
+     *
+     * Either way, else clauses end with the "FI" keyword.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed ElseStmtNode that was parsed from
+     *         the source code
+     */
     public static ElsePartNode parseElse(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {

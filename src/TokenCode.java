@@ -3,6 +3,7 @@
  * Descartes 2 programming language.
  */
 public enum TokenCode {
+
     T_PERIOD,
     T_SEMICOLON,
     T_IF,
@@ -35,4 +36,5 @@ public enum TokenCode {
     T_CONST,
     T_SPACE,
     T_EOL
+
 }

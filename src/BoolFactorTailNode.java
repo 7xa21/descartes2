@@ -8,9 +8,11 @@ import java.io.IOException;
  *
  * <hr/>
  * <pre>
+ *         ...
  *     26. bool-term : bool-factor bool-factor-tail
  *     27. bool-factor-tail : AND bool-factor bool-factor-tail
  *     28. bool-factor-tail :
+ *         ...
  * </pre>
  */
 public class BoolFactorTailNode {
@@ -150,4 +152,5 @@ public class BoolFactorTailNode {
 
         return factorTail;
     }
+
 }

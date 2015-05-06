@@ -2,6 +2,24 @@ import java.io.IOException;
 import java.util.Stack;
 
 
+/**
+ * A loop statement repeats a statement list until broken.
+ *
+ * Loops are named, and nested loops are maintained with a stack
+ * of loop names. They are broken when a BREAK statement is
+ * executed directly within the statement list, or when a BREAK
+ * statement that explicitly identifies a loop is executed within
+ * a nested loop's statement list.
+ *
+ * <hr/>
+ * <pre>
+ *         ...
+ *     5.  stmt : loop-stmt
+ *         ...
+ *     14. loop-stmt : LOOP ID COLON stmt-list REPEAT
+ *         ...
+ * </pre>
+ */
 public class LoopStmtNode extends StmtNode {
 
     //==================//
@@ -16,11 +34,30 @@ public class LoopStmtNode extends StmtNode {
     // Methods //
     //=========//
 
+    /**
+     * Constructs a new loop statement with the specified id and
+     * statement list.
+     *
+     * @param id A String that will name the loop
+     * @param stmtList A statement list that will be repeated by
+     *                 the loop
+     */
     public LoopStmtNode(String id, StmtListNode stmtList) {
         m_id = id;
         m_stmtList = stmtList;
     }
 
+    /**
+     * Repeatedly executes a loop's statement list until the loop
+     * is broken.
+     *
+     * Before the statement list is initially executed, the loop's
+     * name is pushed to the program state's loop ID stack. The
+     * loop will continue executing until its ID is no longer at
+     * the top of the loop ID stack.
+     *
+     * @param progState The current program state
+     */
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
     {
@@ -55,6 +92,27 @@ public class LoopStmtNode extends StmtNode {
     // Static Methods //
     //================//
 
+
+    /**
+     * Returns 'true' if a loop statement appears next in the
+     * input source code.
+     *
+     * This is used by StmtNode.parseStmt() which must detect any
+     * of seven possible statements (including blank/empty
+     * statements).
+     *
+     * The tokenReader is not advanced by this method; it only
+     * detects whether a loop statement appears next. If 'true' is
+     * returned by this method, LoopStmtNode.parseLoopStmt()
+     * should be called immediately after to parse the loop
+     * statement.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return 'true' if a loop statement appears next in the
+     *         input source code
+     */
     public static boolean detectLoopStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {
@@ -83,6 +141,21 @@ public class LoopStmtNode extends StmtNode {
         return detected;
     }
 
+    /**
+     * Reads source code tokens from tokenReader and parses them
+     * into, and returns, a loop statement node.
+     *
+     * A loop statement begins with the keyword "LOOP" followed by
+     * an identifier token which names the loop and a COLON. A
+     * statement list follows the colon and is terminated by the
+     * REPEAT keyword.
+     *
+     * @param tokenReader The TokenReader from which source code
+     *                    tokens will be read
+     *
+     * @return The constructed LoopStmtNode that was parsed from
+     *         the source code
+     */
     public static LoopStmtNode parseLoopStmt(TokenReader tokenReader)
             throws IOException, DCSyntaxErrorException
     {

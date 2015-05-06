@@ -113,9 +113,6 @@ public class TokenReader {
     //	readAlpha()		- reads "alpha" tokens, like keywords and
     // 					  identifiers
     //
-    //	readString()	- reads string literals, e.g. strings
-    // 					  enclosed by double-quotations
-    //
     // Each of these methods will assert() that they're being
     // called properly, e.g. readNumber() will assert that the
     // first character is a digit, etc.
@@ -254,58 +251,6 @@ public class TokenReader {
         return token.toString();
     }
 
-    //
-    // Read a string literal and return it, including the
-    // surrounding quotation marks.
-    //
-    // Excluded from V2 because Descartes 2 doesn't feature string
-    // types.
-    //
-    /*
-    public String readString() throws IOException, DCSyntaxErrorException {
-        char ch;
-        StringBuilder token = new StringBuilder();
-
-        // Ensure we're really reading a string literal.
-        ch = (char)m_inStream.read();
-        assert(ch == '\"');
-        token.append(ch);
-
-        // Keep reading chars until the closing quotation mark is
-        // found.
-        do {
-            // File should not end in the middle of a string
-            // literal.
-            if (m_inStream.available() == 0) {
-                throw new DCSyntaxErrorException(
-                        "End of file detected while reading string literal."
-                );
-            }
-
-            // Get the next character from the input.
-            ch = (char)m_inStream.read();
-
-            //
-            // Do not allow a string across more than one line, as
-            // per the assignment criteria:
-            //
-            // "...no token extends across more than one line."
-            //
-            if (ch == '\n') {
-                throw new DCSyntaxErrorException(
-                        "Line break found in string literal."
-                );
-            }
-
-            // Add the character.
-            token.append(ch);
-        } while (ch != '\"');
-
-        // Return the assembled string literal token.
-        return token.toString();
-    }
-    */
-
     /**
      * Returns a whitespace token as read from the input stream.
      */
@@ -397,22 +342,6 @@ public class TokenReader {
             tokenText = " ";
             tokenCode = TokenCode.T_SPACE;
         }
-
-        /*
-        else if (ch == '\"') {
-            //
-            // String literal tokens.
-            //
-
-            // Put back the opening quotation mark so readString()
-            // can acquire it.
-            m_inStream.unread(ch);
-
-            // Read the string literal.
-            tokenText = readString();
-            tokenCode = ;
-        }
-        */
 
         else if (ch == '\n') {
             //
@@ -611,7 +540,6 @@ public class TokenReader {
             System.exit(-1);
         }
 
-
         // Read tokens from source file.
         TokenReader tokenReader = new TokenReader(fileName, inStream);
         TokenDescriptor tokenDesc;
@@ -641,6 +569,5 @@ public class TokenReader {
             System.exit(-2);
         }
     }
-}
 
-// (eof)
+}

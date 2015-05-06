@@ -8,9 +8,11 @@ import java.io.IOException;
  *
  * <hr/>
  * <pre>
+ *         ...
  *     23. expr : bool-term bool-term-tail
  *     24. bool-term-tail : OR bool-term bool-term-tail
  *     25. bool-term-tail :
+ *         ...
  * </pre>
  */
 public class BoolTermTailNode {
@@ -147,4 +149,5 @@ public class BoolTermTailNode {
 
         return termTail;
     }
+
 }
