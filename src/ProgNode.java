@@ -86,8 +86,11 @@ public class ProgNode {
 
         // "token" should now be the trailing period.
         if (token.getCode() != TokenCode.T_PERIOD) {
-            throw new DCSyntaxErrorException(tokenReader,
-                    "Expected '.' after program statement list.");
+            // If it's not the trailing period, it means we have a
+            // malformed statement that broke the statement list.
+            throw new DCSyntaxErrorException(
+                    tokenReader,
+                    "Expected ';' after statement.");
         }
 
 

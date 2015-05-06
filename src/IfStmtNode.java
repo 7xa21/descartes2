@@ -171,7 +171,12 @@ public class IfStmtNode extends StmtNode {
 
         // Ensure a "THEN" keyword follows the conditional
         // expression.
-        assert(token.getCode() == TokenCode.T_THEN);
+        if (token.getCode() != TokenCode.T_THEN) {
+            throw new DCSyntaxErrorException(
+                    tokenReader,
+                    "Expected 'THEN' after IF conditional expression."
+            );
+        }
 
         // Sets the stmtList to the next stmtList after "THEN".
         StmtListNode stmtList = StmtListNode.parseStmtList(tokenReader);

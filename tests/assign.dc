@@ -1,7 +1,8 @@
 SUM     := 1 + 1;
 EPSILON := 0.000001;
-K       :=1;
-DIFF	:= SUM - 1;
-PROD	:= EPSILON * SUM;
-OPORD	:= -3 * (2 + 2);
+K       := 1;
+DIFF    := SUM - 1;
+PROD    := EPSILON * SUM;
+EXP     := -3 * (2 + 2);
+EXP2:=8*-3+5;
 .

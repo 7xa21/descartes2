@@ -1,5 +1,6 @@
 A := 4;
 B := 4 * A;
-PRINT A;
-PRINT B;
+C := 4 * B;
+D := 4 * C;
+PRINT A, B, C, D;
 .

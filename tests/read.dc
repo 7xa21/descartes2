@@ -1,9 +1,5 @@
-READ A;
-READ B;
-READ C;
-D := A + B + C;
-PRINT A;
-PRINT B;
-PRINT C;
-PRINT D;
+READ A, B, C;
+SUM := A + B + C;
+PRINT A, B, C;
+PRINT SUM;
 .

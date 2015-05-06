@@ -1,0 +1,12 @@
+A := 24;
+B := 3;
+
+LOOP MYLOOP:
+    C := A / B;
+    PRINT C;
+    B := B - 1.0;
+    IF B < 0 THEN
+        BREAK
+    FI
+REPEAT
+.

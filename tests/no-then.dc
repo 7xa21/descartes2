@@ -1,0 +1,12 @@
+VALUE := 108.0;
+
+ONE := 1;
+ZERO := 0;
+
+IF VALUE = 108
+    PRINT ONE
+ELSE
+    PRINT ZERO
+FI
+
+.

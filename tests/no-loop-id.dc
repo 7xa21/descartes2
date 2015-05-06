@@ -1,0 +1,10 @@
+A := 0;
+LOOP:
+    A := A + 1;
+    IF A > 5 THEN
+        BREAK
+    FI;
+REPEAT;
+
+PRINT A;
+.

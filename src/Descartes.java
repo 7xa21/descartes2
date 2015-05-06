@@ -35,26 +35,26 @@ public class Descartes {
      * Reads, parses and executes the program.
      */
     private void run() throws IOException {
+        ProgState progState = new ProgState();
+
         try {
             // Parse the source code file: build the parse tree.
             ProgNode progNode = ProgNode.parseProg(m_tokenReader);
 
             // Execute the program: walk the parse tree.
-            ProgState progState = new ProgState();
             progNode.execute(progState);
+            System.out.println("===================");
+            System.out.println("Execution complete.");
 
-            // Dump the symbol table. Use a TreeSet so the keys
-            // are sorted.
-            TreeSet<String> keys = new TreeSet<String>();
-            keys.addAll(progState.symTab().keySet());
-            for (String key : keys) {
-                System.out.println(key + " : " + progState.symTab().get(key));
-            }
+            // Dump the symbol table.
+            progState.dumpSymTab();
         } catch (DCSyntaxErrorException e) {
-            System.err.println(e.getMessage());
-            System.exit(-1);
+            System.out.println(e.getMessage());
         } catch (DCRuntimeErrorException e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
+            System.out.println("================================");
+            System.out.println("Execution completed with errors.");
+            progState.dumpSymTab();
             System.exit(-1);
         }
     }

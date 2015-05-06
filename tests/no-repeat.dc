@@ -1,0 +1,9 @@
+A := 0;
+LOOP MYLOOP:
+    A := A + 1;
+    IF A > 5 THEN
+        BREAK
+    FI;
+
+PRINT A;
+.

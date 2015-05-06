@@ -178,14 +178,18 @@ public class LoopStmtNode extends StmtNode {
 
         // Whitespace must follow the loop keyword.
         token = tokenReader.getToken();
-        assert(token.getCode() == TokenCode.T_SPACE);
+        if (token.getCode() != TokenCode.T_SPACE) {
+            throw new DCSyntaxErrorException(
+                    tokenReader,
+                    "Expected identifier after 'LOOP'.");
+        }
 
         // The loop ID follows.
         token = tokenReader.getToken();
         if (token.getCode() != TokenCode.T_ID) {
             throw new DCSyntaxErrorException(
                     tokenReader,
-                    "Expected loop identifier.");
+                    "Expected identifier after 'LOOP'.");
         }
         String id = token.getText();
 

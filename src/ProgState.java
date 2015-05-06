@@ -1,5 +1,7 @@
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Stack;
+import java.util.TreeSet;
 
 
 /**
@@ -65,6 +67,59 @@ public class ProgState {
      */
     public void setBreakName(String bName) {
         m_breakName = bName;
+    }
+
+    /**
+     * Reads a value from the console and stores it in the
+     * identified variable in the symbol table.
+     *
+     * @param id The name of the variable to store the read value
+     *           in
+     */
+    public void readVar(String id) {
+        // Read the value from the user.
+        System.out.print("Enter value for " + id + ": ");
+        Scanner input = new Scanner(System.in);
+        double num = input.nextDouble();
+
+        // Assign the user's value to the ID.
+        m_symTab.put(id, num);
+    }
+
+    /**
+     * Prints the value of a variable in the symbol table on the
+     * console.
+     *
+     * @param id The name of the variable to print the value of
+     */
+    public void printVar(String id)
+            throws DCRuntimeErrorException
+    {
+        // Make sure the variable exists in the symbol table.
+        if (!m_symTab.containsKey(id)) {
+            throw new DCRuntimeErrorException(
+                    "Unrecognized variable name: " + id
+            );
+        }
+
+        // Print the value on the console.
+        System.out.println("Value of " + id + ": " + m_symTab.get(id));
+    }
+
+    /**
+     * Dumps the symbol table to the console so its contents may
+     * be examined.
+     */
+    public void dumpSymTab() {
+        System.out.println("Symbol Table:");
+
+        // Alphabetize the symbol names.
+        TreeSet<String> keys = new TreeSet<String>();
+        keys.addAll(m_symTab.keySet());
+        for (String key : keys) {
+            System.out.println(key + " = " + m_symTab.get(key));
+        }
+
     }
 
 }

@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.Stack;
 
 
@@ -57,12 +56,7 @@ public class ReadStmtNode extends StmtNode {
      * @param progState The current program state
      */
     public void execute(ProgState progState) {
-        Scanner input = new Scanner(System.in);
-        double num = input.nextDouble();
-
-        // Assign the user's value to the ID.
-        progState.symTab().put(m_id, num);
-
+        progState.readVar(m_id);
         m_idListTail.read(progState);
     }
 

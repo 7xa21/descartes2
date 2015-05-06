@@ -4,6 +4,11 @@
  *
  * These errors may include division by zero, or trying to
  * dereference a variable that doesn't exist in the symbol tree.
+ *
+ * Since Java already has a RuntimeErrorException, we prefixed our
+ * exceptions with "DC". Although Java's RuntimeException is an
+ * unchecked exception, ours is derived from Exception and is thus
+ * a checked exception.
  */
 public class DCRuntimeErrorException extends Exception {
 

@@ -1,11 +1,21 @@
-A := 0.0;
+FIVE := 0.0;
+TWENTYFIVE := 0.0;
 
 LOOP OUTER:
-    PRINT A;
-    A := 1 + 1;
-    BREAK;
+    FIVE := 0.0;
+    LOOP INNER:
+        IF FIVE >= 5 THEN
+            BREAK
+        ELSE
+            FIVE := FIVE + 1
+        FI
+    REPEAT;
+    TWENTYFIVE := TWENTYFIVE + FIVE;
+    IF TWENTYFIVE >= 25 THEN
+        BREAK
+    FI
 REPEAT;
 
-PRINT A;
+PRINT FIVE;
+PRINT TWENTYFIVE;
 .
-

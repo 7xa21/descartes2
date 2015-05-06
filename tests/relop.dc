@@ -2,21 +2,23 @@ NUM2 := 2.0;
 NUM5 := 5.0;
 NUM7 := 7.0;
 
-F1 := NUM5 < NUM2;
-F2 := NUM5 <= NUM2;
-F3 := NUM5 = NUM2;
 T1 := NUM5 >= NUM2;
 T2 := NUM5 > NUM2;
 T3 := NUM5 <> NUM2;
-
 T4 := NUM5 = 5.0;
 T5 := NUM5 = 5;
-
 T6 := NUM5 < NUM7;
 T7 := NUM5 <= NUM7;
+T8 := NUM2 <= NUM5 AND NUM5 < NUM7;
+T9 := NUM5 = NUM2 OR NUM5 <= 5;
+
+F1 := NUM5 < NUM2;
+F2 := NUM5 <= NUM2;
+F3 := NUM5 = NUM2;
+F4 := 0 = 1;
 F5 := NUM5 > NUM7;
 F6 := NUM5 >= NUM7;
 
-T8 := NUM2 <= NUM5 AND NUM5 < NUM7;
-T9 := NUM5 = NUM2 OR NUM5 <= 5;
+TRUE := (T1 AND T2 AND T3 AND T4 AND T5 AND T6 AND T7 AND T8 AND T9);
+FALSE := (F1 OR F2 OR F3 OR F4 OR F5 OR F6);
 .

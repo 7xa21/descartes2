@@ -51,12 +51,7 @@ public class PrintStmtNode extends StmtNode{
     public void execute(ProgState progState)
             throws DCRuntimeErrorException
     {
-        if (!progState.symTab().containsKey(m_id)) {
-            throw new DCRuntimeErrorException(
-                    "Unrecognized variable name: " + m_id
-            );
-        }
-        System.out.println(progState.symTab().get(m_id));
+        progState.printVar(m_id);
         m_idListTail.print(progState);
     }
 

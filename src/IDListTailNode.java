@@ -59,12 +59,8 @@ public class IDListTailNode {
         // If m_id is null, it means this IDListTailNode is empty
         // and thus its own, subsequent m_idListTail is empty.
         if (m_id != null) {
-            // Read a value from the user.
-            Scanner input = new Scanner(System.in);
-            double num = input.nextDouble();
-
-            // Assign the user's value to the ID.
-            progState.symTab().put(m_id, num);
+            // Read the value from the user.
+            progState.readVar(m_id);
 
             // Read this id-list-tail's subsequent id-list-tail.
             m_idListTail.read(progState);
@@ -86,14 +82,8 @@ public class IDListTailNode {
         // If m_id is null, it means this IDListTailNode is empty
         // and thus its own, subsequent m_idListTail is empty.
         if (m_id != null) {
-            if (!progState.symTab().containsKey(m_id)) {
-                throw new DCRuntimeErrorException(
-                        "Unrecognized variable name: " + m_id
-                );
-            }
-
-            // Print the value on the console.
-            System.out.println(progState.symTab().get(m_id));
+            // Print this id-list's variable to the console.
+            progState.printVar(m_id);
 
             // Print this id-list-tail's subsequent id-list-tail.
             m_idListTail.print(progState);

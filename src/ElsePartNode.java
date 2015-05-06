@@ -84,6 +84,7 @@ public class ElsePartNode {
         ElsePartNode elsePart;
         TokenDescriptor token;
 
+
         // Eat up spaces.
         do {
             token = tokenReader.getToken();
@@ -123,7 +124,12 @@ public class ElsePartNode {
         } while (token.getCode() == TokenCode.T_SPACE);
 
         // Ensure a "FI" keyword ends this else-part.
-        assert(token.getCode() == TokenCode.T_FI);
+        if (token.getCode() != TokenCode.T_FI) {
+            throw new DCSyntaxErrorException(
+                    tokenReader,
+                    "Expected 'FI' after IF-THEN(-ELSE) clause."
+            );
+        }
 
 
         return elsePart;

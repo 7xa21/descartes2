@@ -4,16 +4,18 @@ NUM7 := 7.0;
 DOGS := 8.0;
 CATS := 9.0;
 
+ZERO := 0;
+ONE := 1;
+
 IF NUM2<NUM5 THEN
-    NUM2 := NUM7;
+    IF CATS<DOGS THEN
+        PRINT ZERO;
+    ELSE
+        PRINT ONE;
+    FI
 ELSE
-    NUM2 := NUM5;
+    PRINT ZERO;
 FI;
 
-IF CATS<DOGS THEN
-    DOGS := DOGS + CATS;
-ELSE
-    DOGS := CATS;
-FI
 .
 
