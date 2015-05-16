@@ -19,10 +19,6 @@ surpasses the assignment requirements, which are to run a provided
 example program (found in tests/example.dc). It calculates the
 value of the constant 'e'; the result is only as precise as the
 EPSILON variable assigned at the top of the program.
-
-The assignment is officially due 2015-May-5 at 11:59 PM. Work (for
-fun) may continue after this time - possible additions may include
-functions and goto statements, among other features.
 ------------------------------------------------------------------
 
 It presently dumps the symbol table after executing a program so
